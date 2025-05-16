@@ -1,13 +1,37 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React from 'react';
+import { FormProvider } from '@/contexts/FormContext';
+import { Welcome } from '@/components/Welcome';
+import { IndustrySelection } from '@/components/IndustrySelection';
+import { PersonalitySelection } from '@/components/PersonalitySelection';
+import { TemplateSelection } from '@/components/TemplateSelection';
+import { CardCustomization } from '@/components/CardCustomization';
+import { ExportOptions } from '@/components/ExportOptions';
+import { StepIndicator } from '@/components/StepIndicator';
+import { useFormContext } from '@/contexts/FormContext';
+
+const CometCard: React.FC = () => {
+  const { currentStep } = useFormContext();
+  
+  return (
+    <>
+      <StepIndicator />
+      
+      {currentStep === 'welcome' && <Welcome />}
+      {currentStep === 'industry' && <IndustrySelection />}
+      {currentStep === 'personality' && <PersonalitySelection />}
+      {currentStep === 'template' && <TemplateSelection />}
+      {currentStep === 'customize' && <CardCustomization />}
+      {currentStep === 'export' && <ExportOptions />}
+    </>
+  );
+};
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
-    </div>
+    <FormProvider>
+      <CometCard />
+    </FormProvider>
   );
 };
 
