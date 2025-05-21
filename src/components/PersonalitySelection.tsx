@@ -59,7 +59,7 @@ export const PersonalitySelection: React.FC = () => {
           What words best express your brand's personality?
         </h2>
         <p className="text-lg text-gray-300 mb-2">
-          Select the nearest personality trait to your brand.
+          Pick one—this just helps us focus your style. You can still get creative later.
         </p>
       </motion.div>
 
