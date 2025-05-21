@@ -3,6 +3,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { BrandPersonality, useFormContext } from '@/contexts/FormContext';
+import { ChevronLeft } from 'lucide-react';
 
 const personalityOptions: BrandPersonality[] = [
   'Vibrant',
@@ -18,7 +19,7 @@ const personalityOptions: BrandPersonality[] = [
 ];
 
 export const PersonalitySelection: React.FC = () => {
-  const { personalities, togglePersonality, nextStep } = useFormContext();
+  const { personalities, togglePersonality, nextStep, prevStep } = useFormContext();
 
   const container = {
     hidden: { opacity: 0 },
@@ -38,6 +39,16 @@ export const PersonalitySelection: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center py-12 px-4">
       <div className="starry-background"></div>
+      
+      <Button
+        variant="ghost"
+        onClick={prevStep}
+        className="absolute top-6 left-6 text-white hover:bg-cosmic-100 hover:bg-opacity-40"
+        aria-label="Go back"
+      >
+        <ChevronLeft className="mr-1" />
+        Back
+      </Button>
       
       <motion.div 
         initial={{ opacity: 0, y: -20 }}

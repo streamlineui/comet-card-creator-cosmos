@@ -8,9 +8,10 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@
 import { Slider } from '@/components/ui/slider';
 import { useFormContext } from '@/contexts/FormContext';
 import { toast } from "sonner";
+import { ChevronLeft } from 'lucide-react';
 
 export const ExportOptions: React.FC = () => {
-  const { cardInfo, exportSettings, updateExportSettings, goToStep } = useFormContext();
+  const { cardInfo, exportSettings, updateExportSettings, goToStep, prevStep } = useFormContext();
 
   const handleExport = () => {
     toast.success("Business card exported successfully!", {
@@ -25,6 +26,16 @@ export const ExportOptions: React.FC = () => {
   return (
     <div className="min-h-screen py-12 px-4">
       <div className="starry-background"></div>
+      
+      <Button
+        variant="ghost"
+        onClick={prevStep}
+        className="absolute top-6 left-6 text-white hover:bg-cosmic-100 hover:bg-opacity-40"
+        aria-label="Go back"
+      >
+        <ChevronLeft className="mr-1" />
+        Back
+      </Button>
       
       <div className="container mx-auto max-w-6xl">
         <motion.div 

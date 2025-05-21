@@ -58,7 +58,7 @@ export interface FormContextType {
     colorMode: 'RGB' | 'CMYK';
     size: number;
   };
-  updateExportSettings: (key: keyof typeof exportSettings, value: any) => void;
+  updateExportSettings: (key: keyof typeof defaultExportSettings, value: any) => void;
 }
 
 const defaultCardInfo: CardInfo = {
@@ -76,6 +76,12 @@ const defaultCardInfo: CardInfo = {
   templateId: '',
 };
 
+const defaultExportSettings = {
+  fileType: 'pdf' as const,
+  colorMode: 'RGB' as const,
+  size: 50,
+};
+
 const FormContext = createContext<FormContextType | undefined>(undefined);
 
 export const FormProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -83,11 +89,7 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [industry, setIndustry] = useState<Industry>('');
   const [personalities, setPersonalities] = useState<BrandPersonality[]>([]);
   const [cardInfo, setCardInfo] = useState<CardInfo>(defaultCardInfo);
-  const [exportSettings, setExportSettings] = useState({
-    fileType: 'pdf' as const,
-    colorMode: 'RGB' as const,
-    size: 50,
-  });
+  const [exportSettings, setExportSettings] = useState(defaultExportSettings);
 
   const nextStep = () => {
     const steps: StepId[] = ['welcome', 'industry', 'personality', 'template', 'customize', 'export'];
@@ -123,7 +125,7 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setCardInfo((prev) => ({ ...prev, [key]: value }));
   };
 
-  const updateExportSettings = (key: keyof typeof exportSettings, value: any) => {
+  const updateExportSettings = (key: keyof typeof defaultExportSettings, value: any) => {
     setExportSettings((prev) => ({ ...prev, [key]: value }));
   };
 

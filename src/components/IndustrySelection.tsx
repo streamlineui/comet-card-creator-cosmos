@@ -2,6 +2,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Industry, useFormContext } from '@/contexts/FormContext';
+import { Button } from '@/components/ui/button';
+import { ChevronLeft } from 'lucide-react';
 
 const industries: Industry[] = [
   'Automotive',
@@ -16,7 +18,7 @@ const industries: Industry[] = [
 ];
 
 export const IndustrySelection: React.FC = () => {
-  const { industry, setIndustry, nextStep } = useFormContext();
+  const { industry, setIndustry, nextStep, prevStep } = useFormContext();
 
   const handleSelect = (selectedIndustry: Industry) => {
     setIndustry(selectedIndustry);
@@ -41,6 +43,16 @@ export const IndustrySelection: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center py-12 px-4">
       <div className="starry-background"></div>
+      
+      <Button
+        variant="ghost"
+        onClick={prevStep}
+        className="absolute top-6 left-6 text-white hover:bg-cosmic-100 hover:bg-opacity-40"
+        aria-label="Go back"
+      >
+        <ChevronLeft className="mr-1" />
+        Back
+      </Button>
       
       <motion.div 
         initial={{ opacity: 0, y: -20 }}

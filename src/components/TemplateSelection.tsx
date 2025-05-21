@@ -3,6 +3,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { useFormContext } from '@/contexts/FormContext';
+import { ChevronLeft } from 'lucide-react';
 
 // Mock template data
 const templates = [
@@ -18,7 +19,7 @@ const templates = [
 ];
 
 export const TemplateSelection: React.FC = () => {
-  const { cardInfo, updateCardInfo, nextStep } = useFormContext();
+  const { cardInfo, updateCardInfo, nextStep, prevStep } = useFormContext();
 
   const handleSelectTemplate = (templateId: string) => {
     updateCardInfo('templateId', templateId);
@@ -43,6 +44,16 @@ export const TemplateSelection: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center py-12 px-4">
       <div className="starry-background"></div>
+      
+      <Button
+        variant="ghost"
+        onClick={prevStep}
+        className="absolute top-6 left-6 text-white hover:bg-cosmic-100 hover:bg-opacity-40"
+        aria-label="Go back"
+      >
+        <ChevronLeft className="mr-1" />
+        Back
+      </Button>
       
       <motion.div 
         initial={{ opacity: 0, y: -20 }}
