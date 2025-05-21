@@ -48,7 +48,7 @@ export const PersonalitySelection: React.FC = () => {
           What words best express your brand's personality?
         </h2>
         <p className="text-lg text-gray-300 mb-2">
-          Select all that apply to influence your card's design.
+          Select the nearest personality trait to your brand.
         </p>
       </motion.div>
 
