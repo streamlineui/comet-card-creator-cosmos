@@ -189,7 +189,7 @@ export const CardCustomization: React.FC = () => {
                 <Button
                   variant="outline"
                   onClick={() => document.getElementById('logo-upload')?.click()}
-                  className="border-cosmic-300 text-white hover:bg-cosmic-200"
+                  className="border-cosmic-300 text-white hover:bg-cosmic-200 bg-cosmic-100"
                 >
                   Choose File
                 </Button>
