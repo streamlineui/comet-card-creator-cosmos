@@ -333,7 +333,7 @@ export const CardCustomization: React.FC = () => {
                     <p className="text-sm italic">{cardInfo.tagline}</p>
                   )}
                   {cardInfo.website && (
-                    <p className="text-sm">{cardInfo.website}</p>
+                    <p className="text-sm italic">{cardInfo.website}</p>
                   )}
                   
                   {cardInfo.contacts.length > 0 && (
