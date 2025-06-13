@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
@@ -7,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 import { useFormContext } from '@/contexts/FormContext';
-import { Plus } from 'lucide-react';
+import { Plus, Undo } from 'lucide-react';
 
 export const CardCustomization: React.FC = () => {
   const { cardInfo, updateCardInfo, nextStep } = useFormContext();
@@ -73,6 +72,7 @@ export const CardCustomization: React.FC = () => {
             animate={{ opacity: 1, x: 0 }}
             className="space-y-6"
           >
+            
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="fullName">Full Name</Label>
@@ -132,6 +132,7 @@ export const CardCustomization: React.FC = () => {
               </div>
             </div>
 
+            
             <div className="space-y-3">
               <div className="flex justify-between">
                 <Label>Contact Information</Label>
@@ -176,6 +177,7 @@ export const CardCustomization: React.FC = () => {
               ))}
             </div>
 
+            
             <div className="space-y-4">
               <Label htmlFor="logo">Upload Logo</Label>
               <div className="flex items-center gap-4">
@@ -297,6 +299,7 @@ export const CardCustomization: React.FC = () => {
           >
             <h3 className="text-xl font-semibold mb-6">Card Preview</h3>
             
+            
             <div className="w-full max-w-md aspect-[1.7/1] rounded-xl overflow-hidden border-2 border-cosmic-300">
               <div 
                 className="w-full h-full p-6 relative flex flex-col"
@@ -346,18 +349,12 @@ export const CardCustomization: React.FC = () => {
               </div>
             </div>
             
-            <div className="mt-6 space-y-4">
+            <div className="mt-6">
               <Button 
                 variant="outline"
-                className="w-full border-cosmic-300 text-white hover:bg-cosmic-200"
+                className="w-full border-cosmic-300 text-white hover:bg-cosmic-200 bg-cosmic-100"
               >
-                Reset to Brand Colors
-              </Button>
-              
-              <Button 
-                variant="outline"
-                className="w-full border-cosmic-300 text-white hover:bg-cosmic-200"
-              >
+                <Undo className="h-4 w-4 mr-2" />
                 Undo Last Change
               </Button>
             </div>
