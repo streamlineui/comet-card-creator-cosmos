@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
@@ -63,16 +62,28 @@ export const ExportOptions: React.FC = () => {
                 className="grid grid-cols-3 gap-4"
               >
                 <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="pdf" id="pdf" />
-                  <Label htmlFor="pdf">PDF</Label>
+                  <RadioGroupItem 
+                    value="pdf" 
+                    id="pdf" 
+                    className="border-white text-white data-[state=checked]:bg-white data-[state=checked]:border-white"
+                  />
+                  <Label htmlFor="pdf" className="text-white">PDF</Label>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="jpg" id="jpg" />
-                  <Label htmlFor="jpg">JPG</Label>
+                  <RadioGroupItem 
+                    value="jpg" 
+                    id="jpg" 
+                    className="border-white text-white data-[state=checked]:bg-white data-[state=checked]:border-white"
+                  />
+                  <Label htmlFor="jpg" className="text-white">JPG</Label>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="png" id="png" />
-                  <Label htmlFor="png">PNG</Label>
+                  <RadioGroupItem 
+                    value="png" 
+                    id="png" 
+                    className="border-white text-white data-[state=checked]:bg-white data-[state=checked]:border-white"
+                  />
+                  <Label htmlFor="png" className="text-white">PNG</Label>
                 </div>
               </RadioGroup>
             </div>
@@ -119,7 +130,7 @@ export const ExportOptions: React.FC = () => {
               <Button 
                 variant="outline"
                 onClick={handleExport}
-                className="border-cosmic-300 text-white hover:bg-cosmic-200"
+                className="border-cosmic-300 text-cosmic-300 hover:bg-cosmic-300 hover:text-cosmic bg-transparent"
               >
                 Download
               </Button>
