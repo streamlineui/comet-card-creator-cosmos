@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
@@ -349,10 +350,10 @@ export const CardCustomization: React.FC = () => {
               </div>
             </div>
             
-            <div className="mt-6">
+            <div className="mt-6 w-full max-w-md">
               <Button 
                 variant="outline"
-                className="w-full border-cosmic-300 text-white hover:bg-cosmic-200 bg-cosmic-100"
+                className="border-cosmic-300 text-white hover:bg-cosmic-200 bg-cosmic-100"
               >
                 <Undo className="h-4 w-4 mr-2" />
                 Undo Last Change
