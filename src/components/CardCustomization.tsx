@@ -189,7 +189,7 @@ export const CardCustomization: React.FC = () => {
                 <Button
                   variant="outline"
                   onClick={() => document.getElementById('logo-upload')?.click()}
-                  className="border-cosmic-300 text-white hover:bg-cosmic-200 bg-cosmic-100"
+                  className="border-cosmic-300 text-white hover:bg-cosmic-200 hover:text-cosmic-900 bg-cosmic-100"
                 >
                   Choose File
                 </Button>
@@ -319,9 +319,9 @@ export const CardCustomization: React.FC = () => {
                     </div>
                   )}
                   
-                  <div className="text-right">
+                  <div className="text-right flex flex-col">
                     <h4 className="text-xl font-bold">{cardInfo.fullName || 'Full Name'}</h4>
-                    <p className="text-sm">{cardInfo.role || 'Role'}</p>
+                    <p className="text-sm self-start">{cardInfo.role || 'Role'}</p>
                   </div>
                 </div>
                 
