@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
@@ -50,7 +51,7 @@ export const CardCustomization: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen py-12 px-4">
+    <div className="min-h-screen py-12 px-4 pb-24">
       <div className="starry-background"></div>
       
       <div className="container mx-auto max-w-6xl">
@@ -352,23 +353,25 @@ export const CardCustomization: React.FC = () => {
           </motion.div>
         </div>
 
-        {/* Navigation buttons */}
-        <div className="fixed bottom-6 left-6 right-6 flex justify-between">
-          <Button 
-            onClick={prevStep}
-            variant="outline"
-            className="border-cosmic-300 text-white hover:bg-cosmic-200 bg-cosmic-100"
-          >
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back
-          </Button>
-          
-          <Button 
-            onClick={nextStep}
-            className="cosmic-button"
-          >
-            Continue to Export
-          </Button>
+        {/* Navigation buttons - Fixed positioning */}
+        <div className="fixed bottom-0 left-0 right-0 bg-cosmic/80 backdrop-blur-sm border-t border-cosmic-300 p-4 z-50">
+          <div className="container mx-auto max-w-6xl flex justify-between">
+            <Button 
+              onClick={prevStep}
+              variant="outline"
+              className="border-cosmic-300 text-white hover:bg-cosmic-200 bg-cosmic-100"
+            >
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back
+            </Button>
+            
+            <Button 
+              onClick={nextStep}
+              className="cosmic-button"
+            >
+              Continue to Export
+            </Button>
+          </div>
         </div>
       </div>
     </div>
