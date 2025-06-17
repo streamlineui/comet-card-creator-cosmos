@@ -1,5 +1,3 @@
-
-
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
@@ -8,10 +6,10 @@ import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 import { useFormContext } from '@/contexts/FormContext';
-import { Plus, Undo } from 'lucide-react';
+import { Plus, Undo, ArrowLeft } from 'lucide-react';
 
 export const CardCustomization: React.FC = () => {
-  const { cardInfo, updateCardInfo, nextStep } = useFormContext();
+  const { cardInfo, updateCardInfo, nextStep, prevStep } = useFormContext();
   const [showColorPicker, setShowColorPicker] = useState(false);
 
   const handleAddContact = () => {
@@ -282,15 +280,6 @@ export const CardCustomization: React.FC = () => {
                 />
               </div>
             </div>
-
-            <div className="pt-6 flex justify-end">
-              <Button 
-                onClick={nextStep}
-                className="cosmic-button"
-              >
-                Continue to Export
-              </Button>
-            </div>
           </motion.div>
           
           {/* Preview Section */}
@@ -362,8 +351,26 @@ export const CardCustomization: React.FC = () => {
             </div>
           </motion.div>
         </div>
+
+        {/* Navigation buttons */}
+        <div className="fixed bottom-6 left-6 right-6 flex justify-between">
+          <Button 
+            onClick={prevStep}
+            variant="outline"
+            className="border-cosmic-300 text-white hover:bg-cosmic-200 bg-cosmic-100"
+          >
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Back
+          </Button>
+          
+          <Button 
+            onClick={nextStep}
+            className="cosmic-button"
+          >
+            Continue to Export
+          </Button>
+        </div>
       </div>
     </div>
   );
 };
-
