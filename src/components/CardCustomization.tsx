@@ -1,4 +1,5 @@
 
+
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
@@ -350,7 +351,7 @@ export const CardCustomization: React.FC = () => {
               </div>
             </div>
             
-            <div className="mt-6 w-full max-w-md">
+            <div className="mt-6 w-full max-w-md flex justify-end">
               <Button 
                 variant="outline"
                 className="border-cosmic-300 text-white hover:bg-cosmic-200 bg-cosmic-100"
@@ -365,3 +366,4 @@ export const CardCustomization: React.FC = () => {
     </div>
   );
 };
+
