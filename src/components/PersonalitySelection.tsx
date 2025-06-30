@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { BrandPersonality, useFormContext } from '@/contexts/FormContext';
@@ -19,7 +19,12 @@ const personalityOptions: BrandPersonality[] = [
 ];
 
 export const PersonalitySelection: React.FC = () => {
-  const { personalities, togglePersonality, nextStep, prevStep } = useFormContext();
+  const { personalities, togglePersonality, nextStep, prevStep, setPersonalities } = useFormContext();
+
+  // Clear selected personalities when component mounts
+  useEffect(() => {
+    setPersonalities([]);
+  }, [setPersonalities]);
 
   const handlePersonalitySelect = (personality: BrandPersonality) => {
     togglePersonality(personality);

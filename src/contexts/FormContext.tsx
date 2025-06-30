@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState } from 'react';
 
 export type Industry = 
@@ -55,6 +56,7 @@ export interface FormContextType {
   setIndustry: (industry: Industry) => void;
   personalities: BrandPersonality[];
   togglePersonality: (personality: BrandPersonality) => void;
+  setPersonalities: (personalities: BrandPersonality[]) => void;
   cardInfo: CardInfo;
   updateCardInfo: (key: keyof CardInfo, value: any) => void;
   exportSettings: {
@@ -149,6 +151,7 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setIndustry,
         personalities,
         togglePersonality,
+        setPersonalities,
         cardInfo,
         updateCardInfo,
         exportSettings,
