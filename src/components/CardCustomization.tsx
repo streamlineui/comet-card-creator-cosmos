@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
@@ -352,23 +353,25 @@ export const CardCustomization: React.FC = () => {
           </motion.div>
         </div>
 
-        {/* Navigation buttons - Simple bottom positioning without footer styling */}
-        <div className="fixed bottom-4 left-4 right-4 flex justify-between z-[9999]">
-          <Button 
-            onClick={prevStep}
-            variant="outline"
-            className="border-cosmic-300 text-white hover:bg-cosmic-200 bg-cosmic-100"
-          >
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back
-          </Button>
-          
-          <Button 
-            onClick={nextStep}
-            className="cosmic-button"
-          >
-            Continue to Export
-          </Button>
+        {/* Navigation buttons - Fixed to bottom of viewport */}
+        <div className="fixed bottom-0 left-0 right-0 p-4 z-[9999]">
+          <div className="flex justify-between max-w-6xl mx-auto">
+            <Button 
+              onClick={prevStep}
+              variant="outline"
+              className="border-cosmic-300 text-white hover:bg-cosmic-200 bg-cosmic-100"
+            >
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back
+            </Button>
+            
+            <Button 
+              onClick={nextStep}
+              className="cosmic-button"
+            >
+              Continue to Export
+            </Button>
+          </div>
         </div>
       </div>
     </div>
