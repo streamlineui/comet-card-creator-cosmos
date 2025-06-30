@@ -50,7 +50,7 @@ export const CardCustomization: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen py-12 px-4 pb-24">
+    <div className="min-h-screen py-12 px-4 pb-16">
       <div className="starry-background"></div>
       
       <div className="container mx-auto max-w-6xl">
@@ -353,7 +353,7 @@ export const CardCustomization: React.FC = () => {
         </div>
 
         {/* Navigation buttons - Positioned at bottom of page (not fixed) */}
-        <div className="mt-12 pt-8">
+        <div className="mt-8 pt-4">
           <div className="flex justify-between max-w-6xl mx-auto">
             <Button 
               onClick={prevStep}
