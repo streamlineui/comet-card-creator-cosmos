@@ -354,7 +354,7 @@ export const CardCustomization: React.FC = () => {
         </div>
 
         {/* Navigation buttons - Fixed positioning */}
-        <div className="fixed bottom-0 left-0 right-0 bg-cosmic/80 backdrop-blur-sm border-t border-cosmic-300 p-4 z-50">
+        <div className="fixed bottom-0 left-0 right-0 bg-cosmic-900/90 backdrop-blur-sm border-t border-cosmic-300 p-4 z-[9999]">
           <div className="container mx-auto max-w-6xl flex justify-between">
             <Button 
               onClick={prevStep}
