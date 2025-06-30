@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
@@ -7,12 +6,71 @@ import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useFormContext } from '@/contexts/FormContext';
+import { useFormContext, Industry } from '@/contexts/FormContext';
 import { Plus, Undo, ArrowLeft } from 'lucide-react';
 
+// Industry-specific font options
+const industryFonts: Record<Industry, Array<{ value: string; label: string; description: string }>> = {
+  'Automotive': [
+    { value: 'Bebas Neue', label: 'Bebas Neue', description: 'Bold, strong, all-caps font, excellent for performance and rugged branding' },
+    { value: 'Barlow', label: 'Barlow', description: 'A slightly condensed, utilitarian sans-serif that feels engineered and professional' },
+    { value: 'Rajdhani', label: 'Rajdhani', description: 'Modern, technical feel with squarish characters, great for an industrial look' },
+  ],
+  'Fashion & Apparel': [
+    { value: 'Playfair Display', label: 'Playfair Display', description: 'Elegant, high-contrast serif with a fashion editorial feel' },
+    { value: 'Lora', label: 'Lora', description: 'Stylish and readable, works well for both headers and text' },
+    { value: 'Poppins', label: 'Poppins', description: 'Geometric and sleek sans-serif, good for modern fashion brands' },
+  ],
+  'Food & Beverage': [
+    { value: 'Quicksand', label: 'Quicksand', description: 'Rounded and friendly, gives a warm, approachable vibe' },
+    { value: 'Merriweather', label: 'Merriweather', description: 'Readable serif with a slightly rustic, trustworthy tone' },
+    { value: 'Caveat', label: 'Caveat', description: 'A hand-written font that works great for artisan or casual food brands' },
+  ],
+  'Sports & Fitness': [
+    { value: 'Anton', label: 'Anton', description: 'Bold, wide, athletic display font for strong presence' },
+    { value: 'Orbitron', label: 'Orbitron', description: 'Futuristic and energetic, great for performance and fitness brands' },
+    { value: 'Titillium Web', label: 'Titillium Web', description: 'Sleek and dynamic sans-serif that works well in active lifestyle contexts' },
+  ],
+  'Real Estate': [
+    { value: 'Montserrat', label: 'Montserrat', description: 'Clean and modern sans-serif, good for upscale or urban branding' },
+    { value: 'Source Sans Pro', label: 'Source Sans Pro', description: 'Highly legible and professional, good for credibility' },
+    { value: 'Merriweather', label: 'Merriweather', description: 'Serif option for traditional or luxury market appeal' },
+  ],
+  'Health & Wellness': [
+    { value: 'Josefin Sans', label: 'Josefin Sans', description: 'Light, airy, and calm—a great match for holistic brands' },
+    { value: 'Nunito', label: 'Nunito', description: 'Rounded and friendly sans-serif, great for well-being and accessibility' },
+    { value: 'Cormorant Garamond', label: 'Cormorant Garamond', description: 'Elegant serif with a spa-like, high-end tone' },
+  ],
+  'Finance & Fintech': [
+    { value: 'Roboto', label: 'Roboto', description: 'Balanced, neutral, and extremely versatile for both tech and financial services' },
+    { value: 'Inter', label: 'Inter', description: 'Designed for digital clarity, highly readable in small print' },
+    { value: 'Space Grotesk', label: 'Space Grotesk', description: 'Modern, slightly technical look with character for startups and fintech' },
+  ],
+  'Art & Creative Services': [
+    { value: 'DM Serif Display', label: 'DM Serif Display', description: 'Artistic, expressive serif with flair' },
+    { value: 'Libre Baskerville', label: 'Libre Baskerville', description: 'Bookish and refined for thoughtful or narrative-driven creatives' },
+    { value: 'Righteous', label: 'Righteous', description: 'Playful yet sharp display font, suitable for bold personal brands' },
+  ],
+  'Beauty & Cosmetics': [
+    { value: 'Cinzel', label: 'Cinzel', description: 'A Roman-inspired serif that feels luxurious and timeless' },
+    { value: 'Manrope', label: 'Manrope', description: 'Clean and refined sans-serif for a minimalist, modern aesthetic' },
+    { value: 'Great Vibes', label: 'Great Vibes', description: 'Elegant script font for high-end or feminine-focused beauty brands' },
+  ],
+  '': [
+    { value: 'Inter', label: 'Inter', description: 'Modern Sans' },
+    { value: 'Playfair Display', label: 'Playfair Display', description: 'Elegant Serif' },
+    { value: 'Montserrat', label: 'Montserrat', description: 'Clean Sans' },
+    { value: 'Lora', label: 'Lora', description: 'Readable Serif' },
+    { value: 'Poppins', label: 'Poppins', description: 'Friendly Sans' },
+  ],
+};
+
 export const CardCustomization: React.FC = () => {
-  const { cardInfo, updateCardInfo, nextStep, prevStep } = useFormContext();
+  const { cardInfo, updateCardInfo, nextStep, prevStep, industry } = useFormContext();
   const [showColorPicker, setShowColorPicker] = useState(false);
+
+  // Get font options based on selected industry
+  const availableFonts = industryFonts[industry] || industryFonts[''];
 
   const handleAddContact = () => {
     updateCardInfo('contacts', [...cardInfo.contacts, { type: 'email', value: '' }]);
@@ -50,17 +108,6 @@ export const CardCustomization: React.FC = () => {
     // Very simplified contrast check
     return bg !== text;
   };
-
-  const fontOptions = [
-    { value: 'Inter', label: 'Inter (Modern Sans)' },
-    { value: 'Playfair Display', label: 'Playfair Display (Elegant Serif)' },
-    { value: 'Montserrat', label: 'Montserrat (Clean Sans)' },
-    { value: 'Lora', label: 'Lora (Readable Serif)' },
-    { value: 'Poppins', label: 'Poppins (Friendly Sans)' },
-    { value: 'Merriweather', label: 'Merriweather (Traditional Serif)' },
-    { value: 'Open Sans', label: 'Open Sans (Neutral Sans)' },
-    { value: 'Roboto', label: 'Roboto (Google Sans)' },
-  ];
 
   return (
     <div className="min-h-screen py-12 px-4 pb-16">
@@ -294,9 +341,11 @@ export const CardCustomization: React.FC = () => {
               </div>
             </div>
 
-            {/* Typography Section */}
+            {/* Typography Section - Updated with industry-specific fonts */}
             <div className="space-y-4 pt-4 border-t border-cosmic-300">
-              <h4 className="text-lg font-semibold text-white">Typography</h4>
+              <h4 className="text-lg font-semibold text-white">
+                Typography {industry && `(${industry} Recommended)`}
+              </h4>
               
               <div className="space-y-2">
                 <Label htmlFor="font-family">Font Family</Label>
@@ -308,9 +357,12 @@ export const CardCustomization: React.FC = () => {
                     <SelectValue placeholder="Select a font" />
                   </SelectTrigger>
                   <SelectContent className="bg-cosmic-100 border-cosmic-300">
-                    {fontOptions.map((font) => (
+                    {availableFonts.map((font) => (
                       <SelectItem key={font.value} value={font.value} className="text-white hover:bg-cosmic-200">
-                        {font.label}
+                        <div>
+                          <div className="font-medium">{font.label}</div>
+                          <div className="text-xs text-gray-400">{font.description}</div>
+                        </div>
                       </SelectItem>
                     ))}
                   </SelectContent>
