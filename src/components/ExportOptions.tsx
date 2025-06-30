@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
@@ -29,7 +30,7 @@ export const ExportOptions: React.FC = () => {
       <Button
         variant="ghost"
         onClick={prevStep}
-        className="absolute top-6 left-6 text-white hover:bg-cosmic-100 hover:bg-opacity-40"
+        className="absolute top-6 left-6 text-white hover:bg-white/10 hover:text-white"
         aria-label="Go back"
       >
         <ChevronLeft className="mr-1" />
