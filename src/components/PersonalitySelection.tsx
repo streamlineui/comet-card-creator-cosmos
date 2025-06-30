@@ -21,6 +21,18 @@ const personalityOptions: BrandPersonality[] = [
 export const PersonalitySelection: React.FC = () => {
   const { personalities, togglePersonality, nextStep, prevStep } = useFormContext();
 
+  const handlePersonalitySelect = (personality: BrandPersonality) => {
+    togglePersonality(personality);
+    // Auto-advance to next step after selection
+    setTimeout(() => {
+      nextStep();
+    }, 200); // Small delay for visual feedback
+  };
+
+  const handleSkip = () => {
+    nextStep();
+  };
+
   const container = {
     hidden: { opacity: 0 },
     show: {
@@ -74,7 +86,7 @@ export const PersonalitySelection: React.FC = () => {
             key={personality}
             variants={item}
             className={`card-option h-20 text-xl ${personalities.includes(personality) ? 'selected' : ''}`}
-            onClick={() => togglePersonality(personality)}
+            onClick={() => handlePersonalitySelect(personality)}
           >
             {personality}
           </motion.div>
@@ -85,16 +97,9 @@ export const PersonalitySelection: React.FC = () => {
         <Button 
           variant="outline"
           className="cosmic-button-outline"
-          onClick={nextStep}
+          onClick={handleSkip}
         >
           Skip
-        </Button>
-        
-        <Button 
-          className="cosmic-button"
-          onClick={nextStep}
-        >
-          Next
         </Button>
       </div>
     </div>
