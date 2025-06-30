@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
@@ -5,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useFormContext } from '@/contexts/FormContext';
 import { Plus, Undo, ArrowLeft } from 'lucide-react';
 
@@ -48,6 +50,17 @@ export const CardCustomization: React.FC = () => {
     // Very simplified contrast check
     return bg !== text;
   };
+
+  const fontOptions = [
+    { value: 'Inter', label: 'Inter (Modern Sans)' },
+    { value: 'Playfair Display', label: 'Playfair Display (Elegant Serif)' },
+    { value: 'Montserrat', label: 'Montserrat (Clean Sans)' },
+    { value: 'Lora', label: 'Lora (Readable Serif)' },
+    { value: 'Poppins', label: 'Poppins (Friendly Sans)' },
+    { value: 'Merriweather', label: 'Merriweather (Traditional Serif)' },
+    { value: 'Open Sans', label: 'Open Sans (Neutral Sans)' },
+    { value: 'Roboto', label: 'Roboto (Google Sans)' },
+  ];
 
   return (
     <div className="min-h-screen py-12 px-4 pb-16">
@@ -280,6 +293,94 @@ export const CardCustomization: React.FC = () => {
                 />
               </div>
             </div>
+
+            {/* Typography Section */}
+            <div className="space-y-4 pt-4 border-t border-cosmic-300">
+              <h4 className="text-lg font-semibold text-white">Typography</h4>
+              
+              <div className="space-y-2">
+                <Label htmlFor="font-family">Font Family</Label>
+                <Select
+                  value={cardInfo.fontFamily || 'Inter'}
+                  onValueChange={(value) => updateCardInfo('fontFamily', value)}
+                >
+                  <SelectTrigger className="bg-cosmic-100 border-cosmic-300 text-white">
+                    <SelectValue placeholder="Select a font" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-cosmic-100 border-cosmic-300">
+                    {fontOptions.map((font) => (
+                      <SelectItem key={font.value} value={font.value} className="text-white hover:bg-cosmic-200">
+                        {font.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="name-font-size">Name Font Size</Label>
+                    <span className="text-sm text-gray-300">{cardInfo.nameFontSize || 20}px</span>
+                  </div>
+                  <Slider
+                    id="name-font-size"
+                    min={16}
+                    max={32}
+                    step={1}
+                    value={[cardInfo.nameFontSize || 20]}
+                    onValueChange={(value) => updateCardInfo('nameFontSize', value[0])}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="role-font-size">Role Font Size</Label>
+                    <span className="text-sm text-gray-300">{cardInfo.roleFontSize || 14}px</span>
+                  </div>
+                  <Slider
+                    id="role-font-size"
+                    min={10}
+                    max={24}
+                    step={1}
+                    value={[cardInfo.roleFontSize || 14]}
+                    onValueChange={(value) => updateCardInfo('roleFontSize', value[0])}
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="company-font-size">Company Font Size</Label>
+                    <span className="text-sm text-gray-300">{cardInfo.companyFontSize || 18}px</span>
+                  </div>
+                  <Slider
+                    id="company-font-size"
+                    min={12}
+                    max={28}
+                    step={1}
+                    value={[cardInfo.companyFontSize || 18]}
+                    onValueChange={(value) => updateCardInfo('companyFontSize', value[0])}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="contact-font-size">Contact Font Size</Label>
+                    <span className="text-sm text-gray-300">{cardInfo.contactFontSize || 12}px</span>
+                  </div>
+                  <Slider
+                    id="contact-font-size"
+                    min={8}
+                    max={18}
+                    step={1}
+                    value={[cardInfo.contactFontSize || 12]}
+                    onValueChange={(value) => updateCardInfo('contactFontSize', value[0])}
+                  />
+                </div>
+              </div>
+            </div>
           </motion.div>
           
           {/* Preview Section */}
@@ -300,7 +401,8 @@ export const CardCustomization: React.FC = () => {
                   borderRadius: `${cardInfo.cornerRadius}px`,
                   background: cardInfo.useGradient 
                     ? `linear-gradient(135deg, ${cardInfo.backgroundColor}, #252b3b)`
-                    : cardInfo.backgroundColor
+                    : cardInfo.backgroundColor,
+                  fontFamily: cardInfo.fontFamily || 'Inter'
                 }}
               >
                 <div className="flex justify-between items-start">
@@ -311,26 +413,52 @@ export const CardCustomization: React.FC = () => {
                   )}
                   
                   <div className="text-right flex flex-col">
-                    <h4 className="text-xl font-bold">{cardInfo.fullName || 'Full Name'}</h4>
-                    <p className="text-sm self-start">{cardInfo.role || 'Role'}</p>
+                    <h4 
+                      className="font-bold"
+                      style={{ fontSize: `${cardInfo.nameFontSize || 20}px` }}
+                    >
+                      {cardInfo.fullName || 'Full Name'}
+                    </h4>
+                    <p 
+                      className="self-start"
+                      style={{ fontSize: `${cardInfo.roleFontSize || 14}px` }}
+                    >
+                      {cardInfo.role || 'Role'}
+                    </p>
                   </div>
                 </div>
                 
                 <div className="mt-auto">
-                  <h5 className="text-lg font-bold">
+                  <h5 
+                    className="font-bold"
+                    style={{ fontSize: `${cardInfo.companyFontSize || 18}px` }}
+                  >
                     {cardInfo.businessName || 'Business Name'}
                   </h5>
                   {cardInfo.tagline && (
-                    <p className="text-sm italic">{cardInfo.tagline}</p>
+                    <p 
+                      className="italic"
+                      style={{ fontSize: `${cardInfo.contactFontSize || 12}px` }}
+                    >
+                      {cardInfo.tagline}
+                    </p>
                   )}
                   {cardInfo.website && (
-                    <p className="text-sm italic">{cardInfo.website}</p>
+                    <p 
+                      className="italic"
+                      style={{ fontSize: `${cardInfo.contactFontSize || 12}px` }}
+                    >
+                      {cardInfo.website}
+                    </p>
                   )}
                   
                   {cardInfo.contacts.length > 0 && (
                     <div className="mt-2">
                       {cardInfo.contacts.map((contact, index) => (
-                        <p key={index} className="text-sm">
+                        <p 
+                          key={index}
+                          style={{ fontSize: `${cardInfo.contactFontSize || 12}px` }}
+                        >
                           {contact.type}: {contact.value}
                         </p>
                       ))}
@@ -353,7 +481,7 @@ export const CardCustomization: React.FC = () => {
         </div>
 
         {/* Navigation buttons - Positioned at bottom of page (not fixed) */}
-        <div className="mt-8 pt-4">
+        <div className="mt-4 pt-4">
           <div className="flex justify-between max-w-6xl mx-auto">
             <Button 
               onClick={prevStep}

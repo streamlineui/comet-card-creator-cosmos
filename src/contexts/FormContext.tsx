@@ -39,6 +39,11 @@ export interface CardInfo {
   useGradient: boolean;
   cornerRadius: number;
   templateId: string;
+  fontFamily: string;
+  nameFontSize: number;
+  roleFontSize: number;
+  companyFontSize: number;
+  contactFontSize: number;
 }
 
 export interface FormContextType {
@@ -73,6 +78,11 @@ const defaultCardInfo: CardInfo = {
   useGradient: false,
   cornerRadius: 8,
   templateId: '',
+  fontFamily: 'Inter',
+  nameFontSize: 20,
+  roleFontSize: 14,
+  companyFontSize: 18,
+  contactFontSize: 12,
 };
 
 const defaultExportSettings = {
