@@ -12,7 +12,6 @@ const steps: Step[] = [
   { id: 'welcome', label: 'Welcome' },
   { id: 'industry', label: 'Industry' },
   { id: 'personality', label: 'Personality' },
-  { id: 'template', label: 'Template' },
   { id: 'customize', label: 'Customize' },
   { id: 'export', label: 'Export' },
 ];

@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState } from 'react';
 
 export type Industry = 
@@ -25,7 +24,7 @@ export type BrandPersonality =
   | 'Minimal'
   | 'Colorful';
 
-export type StepId = 'welcome' | 'industry' | 'personality' | 'template' | 'customize' | 'export';
+export type StepId = 'welcome' | 'industry' | 'personality' | 'customize' | 'export';
 
 export interface CardInfo {
   fullName: string;
@@ -92,7 +91,7 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [exportSettings, setExportSettings] = useState(defaultExportSettings);
 
   const nextStep = () => {
-    const steps: StepId[] = ['welcome', 'industry', 'personality', 'template', 'customize', 'export'];
+    const steps: StepId[] = ['welcome', 'industry', 'personality', 'customize', 'export'];
     const currentIndex = steps.indexOf(currentStep);
     if (currentIndex < steps.length - 1) {
       setCurrentStep(steps[currentIndex + 1]);
@@ -100,7 +99,7 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const prevStep = () => {
-    const steps: StepId[] = ['welcome', 'industry', 'personality', 'template', 'customize', 'export'];
+    const steps: StepId[] = ['welcome', 'industry', 'personality', 'customize', 'export'];
     const currentIndex = steps.indexOf(currentStep);
     if (currentIndex > 0) {
       setCurrentStep(steps[currentIndex - 1]);

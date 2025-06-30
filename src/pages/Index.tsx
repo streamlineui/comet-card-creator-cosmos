@@ -4,7 +4,6 @@ import { FormProvider } from '@/contexts/FormContext';
 import { Welcome } from '@/components/Welcome';
 import { IndustrySelection } from '@/components/IndustrySelection';
 import { PersonalitySelection } from '@/components/PersonalitySelection';
-import { TemplateSelection } from '@/components/TemplateSelection';
 import { CardCustomization } from '@/components/CardCustomization';
 import { ExportOptions } from '@/components/ExportOptions';
 import { StepIndicator } from '@/components/StepIndicator';
@@ -20,7 +19,6 @@ const CometCard: React.FC = () => {
       {currentStep === 'welcome' && <Welcome />}
       {currentStep === 'industry' && <IndustrySelection />}
       {currentStep === 'personality' && <PersonalitySelection />}
-      {currentStep === 'template' && <TemplateSelection />}
       {currentStep === 'customize' && <CardCustomization />}
       {currentStep === 'export' && <ExportOptions />}
     </>
