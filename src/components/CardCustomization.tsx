@@ -343,8 +343,8 @@ export const CardCustomization: React.FC = () => {
                 <Slider
                   id="corner-radius"
                   min={0}
-                  max={24}
-                  step={1}
+                  max={64}
+                  step={4}
                   value={[cardInfo.cornerRadius]}
                   onValueChange={(value) => updateCardInfo('cornerRadius', value[0])}
                 />
