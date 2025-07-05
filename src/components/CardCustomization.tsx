@@ -263,6 +263,11 @@ export const CardCustomization: React.FC = () => {
               </div>
             </div>
 
+            
+
+
+
+            
             <div className="space-y-4 pt-4 border-t border-cosmic-300">
               <div className="flex items-center justify-between">
                 <Label htmlFor="background-color">Background Color</Label>
@@ -294,6 +299,11 @@ export const CardCustomization: React.FC = () => {
                   />
                 </div>
               </div>
+
+
+
+
+              
 
               <div className="flex items-center justify-between">
                 <Label htmlFor="text-color">Text Color</Label>
