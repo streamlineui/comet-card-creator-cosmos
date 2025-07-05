@@ -22,53 +22,28 @@ export const Welcome: React.FC = () => {
         container.appendChild(comet);
       }
 
-      // Create floating particles
-      for (let i = 0; i < 20; i++) {
-        const particle = document.createElement('div');
-        particle.classList.add('floating-particle');
-        particle.style.top = `${Math.random() * 100}%`;
-        particle.style.left = `${Math.random() * 100}%`;
-        particle.style.animationDelay = `${Math.random() * 10}s`;
-        particle.style.animationDuration = `${8 + Math.random() * 12}s`;
-        container.appendChild(particle);
+      // Create floating business cards
+      for (let i = 0; i < 25; i++) {
+        const card = document.createElement('div');
+        card.classList.add('floating-business-card');
+        card.style.top = `${Math.random() * 100}%`;
+        card.style.left = `${Math.random() * 100}%`;
+        card.style.animationDelay = `${Math.random() * 15}s`;
+        card.style.animationDuration = `${12 + Math.random() * 8}s`;
+        
+        // Add some variety to card designs
+        const cardTypes = ['card-modern', 'card-classic', 'card-minimal', 'card-tech'];
+        card.classList.add(cardTypes[Math.floor(Math.random() * cardTypes.length)]);
+        
+        container.appendChild(card);
       }
-
-      // Create nebula clouds
-      for (let i = 0; i < 3; i++) {
-        const nebula = document.createElement('div');
-        nebula.classList.add('nebula-cloud');
-        nebula.style.top = `${Math.random() * 100}%`;
-        nebula.style.left = `${Math.random() * 100}%`;
-        nebula.style.animationDelay = `${Math.random() * 15}s`;
-        container.appendChild(nebula);
-      }
-
-      // Create planets with enhanced styling
-      const createPlanet = (size: number, colors: string[], posX: number, posY: number) => {
-        const planet = document.createElement('div');
-        planet.classList.add('planet');
-        planet.style.width = `${size}px`;
-        planet.style.height = `${size}px`;
-        planet.style.background = `radial-gradient(circle at 30% 30%, ${colors[0]}, ${colors[1]})`;
-        planet.style.top = `${posY}%`;
-        planet.style.left = `${posX}%`;
-        planet.style.boxShadow = `0 0 ${size}px ${size/4}px ${colors[0]}33, inset -${size/4}px -${size/4}px ${size/2}px ${colors[1]}44`;
-        planet.style.animation = `float ${6 + Math.random() * 4}s ease-in-out infinite`;
-        planet.style.animationDelay = `${Math.random() * 2}s`;
-        container.appendChild(planet);
-      };
-
-      createPlanet(80, ['#9b87f5', '#7e69ab'], 75, 15);
-      createPlanet(50, ['#06b6d4', '#0891b2'], 12, 65);
-      createPlanet(65, ['#f97316', '#ea580c'], 85, 70);
-      createPlanet(35, ['#ec4899', '#db2777'], 25, 25);
     };
 
     createComets();
 
     return () => {
       // Cleanup elements when component unmounts
-      document.querySelectorAll('.comet, .planet, .floating-particle, .nebula-cloud').forEach(el => el.remove());
+      document.querySelectorAll('.comet, .floating-business-card').forEach(el => el.remove());
     };
   }, []);
 

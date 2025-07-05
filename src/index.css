@@ -174,59 +174,49 @@
   }
 }
 
-.floating-particle {
+.floating-business-card {
   position: absolute;
-  width: 4px;
-  height: 4px;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.8), transparent);
-  border-radius: 50%;
-  animation: float-particle linear infinite;
+  width: 85px;
+  height: 55px;
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  animation: float-business-card linear infinite;
   z-index: 1;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
-@keyframes float-particle {
+.card-modern {
+  background: linear-gradient(135deg, rgba(155, 135, 245, 0.15), rgba(6, 182, 212, 0.15));
+}
+
+.card-classic {
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.15), rgba(236, 72, 153, 0.15));
+}
+
+.card-minimal {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+}
+
+.card-tech {
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.15), rgba(126, 105, 171, 0.15));
+}
+
+@keyframes float-business-card {
   0% {
-    transform: translateY(0) translateX(0);
+    transform: translateY(0) translateX(0) rotate(0deg);
     opacity: 0;
   }
   10% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(-100vh) translateX(20px);
-    opacity: 0;
-  }
-}
-
-.nebula-cloud {
-  position: absolute;
-  width: 300px;
-  height: 200px;
-  background: radial-gradient(ellipse, rgba(155, 135, 245, 0.1), rgba(6, 182, 212, 0.05), transparent);
-  border-radius: 50%;
-  animation: nebula-drift 25s ease-in-out infinite;
-  z-index: 0;
-}
-
-@keyframes nebula-drift {
-  0%, 100% {
-    transform: translateX(0) translateY(0) scale(1);
     opacity: 0.6;
   }
-  50% {
-    transform: translateX(50px) translateY(-30px) scale(1.1);
-    opacity: 0.8;
+  90% {
+    opacity: 0.6;
   }
-}
-
-.planet {
-  position: absolute;
-  border-radius: 50%;
-  z-index: 1;
-  filter: blur(0.5px);
+  100% {
+    transform: translateY(-100vh) translateX(30px) rotate(15deg);
+    opacity: 0;
+  }
 }
 
 .glassmorphism-button {
