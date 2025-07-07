@@ -41,6 +41,21 @@ export const ExportOptions: React.FC = () => {
     return `linear-gradient(135deg, ${baseColor} 0%, ${gradientColor} ${coverage}%)`;
   };
 
+  // Helper function to generate gradient background
+  const getGradientBackground = () => {
+    if (!cardInfo.useGradient) {
+      return cardInfo.backgroundColor;
+    }
+    
+    // Use the primary background color and the second gradient color
+    const firstColor = cardInfo.backgroundColor;
+    const secondColor = cardInfo.gradientSecondColor;
+    
+    // Calculate gradient coverage
+    const coverage = cardInfo.gradientCoverage;
+    return `linear-gradient(135deg, ${firstColor} 0%, ${secondColor} ${coverage}%)`;
+  };
+
   const handleExport = () => {
     toast.success("Business card exported successfully!", {
       description: "Your file is ready for download.",

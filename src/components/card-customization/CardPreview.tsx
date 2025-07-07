@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { useFormContext } from '@/contexts/FormContext';
@@ -13,27 +12,13 @@ export const CardPreview: React.FC = () => {
       return cardInfo.backgroundColor;
     }
     
-    // Calculate gradient intensity (how much the second color differs from the base)
-    const baseColor = cardInfo.backgroundColor;
-    const intensity = cardInfo.gradientIntensity;
-    
-    // Create a darker/lighter version based on intensity
-    const rgb = baseColor.match(/\w\w/g);
-    if (!rgb) return baseColor;
-    
-    const [r, g, b] = rgb.map(x => parseInt(x, 16));
-    const factor = intensity / 100;
-    
-    // Darken the color for gradient
-    const newR = Math.max(0, Math.floor(r * (1 - factor * 0.3)));
-    const newG = Math.max(0, Math.floor(g * (1 - factor * 0.3)));
-    const newB = Math.max(0, Math.floor(b * (1 - factor * 0.3)));
-    
-    const gradientColor = `#${newR.toString(16).padStart(2, '0')}${newG.toString(16).padStart(2, '0')}${newB.toString(16).padStart(2, '0')}`;
+    // Use the primary background color and the second gradient color
+    const firstColor = cardInfo.backgroundColor;
+    const secondColor = cardInfo.gradientSecondColor;
     
     // Calculate gradient coverage
     const coverage = cardInfo.gradientCoverage;
-    return `linear-gradient(135deg, ${baseColor} 0%, ${gradientColor} ${coverage}%)`;
+    return `linear-gradient(135deg, ${firstColor} 0%, ${secondColor} ${coverage}%)`;
   };
 
   // Helper function to get text alignment classes
