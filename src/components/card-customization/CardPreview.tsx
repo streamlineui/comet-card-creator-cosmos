@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { useFormContext } from '@/contexts/FormContext';
@@ -63,146 +64,59 @@ export const CardPreview: React.FC = () => {
     }
   };
 
-  // Helper function to render logo based on placement
-  const renderLogo = () => {
-    if (!cardInfo.logo) return null;
-
-    const logoElement = (
+  return (
+    <div className="flex flex-col items-center space-y-6">
+      <h3 className="text-xl font-semibold">Card Preview</h3>
+      
       <div 
-        className="rounded overflow-hidden bg-white p-1 flex-shrink-0"
-        style={{ 
-          width: `${cardInfo.logoSize}px`, 
-          height: `${cardInfo.logoSize}px` 
-        }}
+        className="rounded-xl overflow-hidden border-2 border-cosmic-300 shadow-lg"
+        style={{ width: '384px', height: '224px' }}
       >
-        <img src={cardInfo.logo} alt="Logo" className="w-full h-full object-contain" />
-      </div>
-    );
-
-    return logoElement;
-  };
-
-  // Helper function to get layout based on logo placement
-  const getLayoutClasses = () => {
-    switch (cardInfo.logoPlacement) {
-      case 'top':
-        return 'flex-col items-center';
-      case 'bottom':
-        return 'flex-col-reverse items-center';
-      case 'left':
-        return 'flex-row items-start';
-      case 'right':
-        return 'flex-row-reverse items-start';
-      case 'center':
-        return 'flex-col items-center justify-center';
-      default:
-        return 'flex-col items-center';
-    }
-  };
-
-  // Helper function to get content layout
-  const getContentLayout = () => {
-    if (cardInfo.logoPlacement === 'center') {
-      return (
-        <div className="flex flex-col items-center justify-center h-full space-y-4">
-          {renderLogo()}
-          <div className={`flex flex-col ${getTextAlignment()}`}>
-            <h4 
-              className="font-bold"
-              style={{ 
-                fontSize: `${cardInfo.nameFontSize || 20}px`,
-                fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
-              }}
-            >
-              {cardInfo.fullName || 'Full Name'}
-            </h4>
-            <p 
-              style={{ 
-                fontSize: `${cardInfo.roleFontSize || 14}px`,
-                fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
-              }}
-            >
-              {cardInfo.role || 'Role'}
-            </p>
-          </div>
-          <div className={`${getTextAlignment()}`}>
-            <h5 
-              className="font-bold"
-              style={{ 
-                fontSize: `${cardInfo.companyFontSize || 18}px`,
-                fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
-              }}
-            >
-              {cardInfo.businessName || 'Business Name'}
-            </h5>
-            {cardInfo.tagline && (
-              <p 
-                className="italic"
-                style={{ 
-                  fontSize: `${cardInfo.contactFontSize || 12}px`,
-                  fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
-                }}
-              >
-                {cardInfo.tagline}
-              </p>
-            )}
-            {cardInfo.website && (
-              <p 
-                className="italic"
-                style={{ 
-                  fontSize: `${cardInfo.contactFontSize || 12}px`,
-                  fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
-                }}
-              >
-                {cardInfo.website}
-              </p>
-            )}
-            {cardInfo.contacts.length > 0 && (
-              <div className="mt-2">
-                {cardInfo.contacts.map((contact, index) => (
-                  <p 
-                    key={index}
-                    style={{ 
-                      fontSize: `${cardInfo.contactFontSize || 12}px`,
-                      fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
-                    }}
-                  >
-                    {contact.type}: {contact.value}
-                  </p>
-                ))}
+        <div 
+          className="w-full h-full p-6 relative flex flex-col"
+          style={{ 
+            backgroundColor: cardInfo.backgroundColor,
+            color: cardInfo.textColor,
+            borderRadius: `${cardInfo.cornerRadius}px`,
+            background: getGradientBackground(),
+            fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
+          }}
+        >
+          <div className={`flex ${cardInfo.textAlignment === 'center' ? 'flex-col items-center' : cardInfo.textAlignment === 'right' ? 'flex-col items-end' : 'justify-between items-start'}`}>
+            {cardInfo.logo && cardInfo.textAlignment !== 'center' && (
+              <div className="w-16 h-16 rounded overflow-hidden bg-white p-1 mb-4">
+                <img src={cardInfo.logo} alt="Logo" className="w-full h-full object-contain" />
               </div>
             )}
-          </div>
-        </div>
-      );
-    }
-
-    return (
-      <div className={`w-full h-full flex ${getLayoutClasses()} ${cardInfo.logoPlacement === 'left' || cardInfo.logoPlacement === 'right' ? 'space-x-4' : 'space-y-4'}`}>
-        {(cardInfo.logoPlacement === 'top' || cardInfo.logoPlacement === 'left') && renderLogo()}
-        
-        <div className="flex flex-col justify-between flex-grow min-h-0">
-          <div className={`flex flex-col ${getTextAlignment()}`}>
-            <h4 
-              className="font-bold"
-              style={{ 
-                fontSize: `${cardInfo.nameFontSize || 20}px`,
-                fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
-              }}
-            >
-              {cardInfo.fullName || 'Full Name'}
-            </h4>
-            <p 
-              style={{ 
-                fontSize: `${cardInfo.roleFontSize || 14}px`,
-                fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
-              }}
-            >
-              {cardInfo.role || 'Role'}
-            </p>
+            
+            {cardInfo.logo && cardInfo.textAlignment === 'center' && (
+              <div className="w-16 h-16 rounded overflow-hidden bg-white p-1 mb-4 mx-auto">
+                <img src={cardInfo.logo} alt="Logo" className="w-full h-full object-contain" />
+              </div>
+            )}
+            
+            <div className={`flex flex-col ${getTextAlignment()}`}>
+              <h4 
+                className="font-bold"
+                style={{ 
+                  fontSize: `${cardInfo.nameFontSize || 20}px`,
+                  fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
+                }}
+              >
+                {cardInfo.fullName || 'Full Name'}
+              </h4>
+              <p 
+                style={{ 
+                  fontSize: `${cardInfo.roleFontSize || 14}px`,
+                  fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
+                }}
+              >
+                {cardInfo.role || 'Role'}
+              </p>
+            </div>
           </div>
           
-          <div className={`${getTextAlignment()}`}>
+          <div className={`mt-auto ${getTextAlignment()}`}>
             <h5 
               className="font-bold"
               style={{ 
@@ -251,32 +165,6 @@ export const CardPreview: React.FC = () => {
               </div>
             )}
           </div>
-        </div>
-
-        {(cardInfo.logoPlacement === 'bottom' || cardInfo.logoPlacement === 'right') && renderLogo()}
-      </div>
-    );
-  };
-
-  return (
-    <div className="flex flex-col items-center space-y-6">
-      <h3 className="text-xl font-semibold">Card Preview</h3>
-      
-      <div 
-        className="rounded-xl overflow-hidden border-2 border-cosmic-300 shadow-lg"
-        style={{ width: '384px', height: '224px' }}
-      >
-        <div 
-          className="w-full h-full p-6 relative"
-          style={{ 
-            backgroundColor: cardInfo.backgroundColor,
-            color: cardInfo.textColor,
-            borderRadius: `${cardInfo.cornerRadius}px`,
-            background: getGradientBackground(),
-            fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
-          }}
-        >
-          {getContentLayout()}
         </div>
       </div>
       

@@ -3,7 +3,6 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { useFormContext } from '@/contexts/FormContext';
-import { LogoControls } from './LogoControls';
 
 export const LogoUpload: React.FC = () => {
   const { cardInfo, updateCardInfo } = useFormContext();
@@ -43,7 +42,6 @@ export const LogoUpload: React.FC = () => {
           onChange={handleFileUpload}
         />
       </div>
-      <LogoControls />
     </div>
   );
 };
