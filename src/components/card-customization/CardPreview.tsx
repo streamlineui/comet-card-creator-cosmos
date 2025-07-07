@@ -46,7 +46,21 @@ export const CardPreview: React.FC = () => {
       case 'right':
         return 'text-right';
       default:
-        return 'text-justify';
+        return 'text-left';
+    }
+  };
+
+  // Helper function to get flex alignment classes
+  const getFlexAlignment = () => {
+    switch (cardInfo.textAlignment) {
+      case 'left':
+        return 'items-start';
+      case 'center':
+        return 'items-center';
+      case 'right':
+        return 'items-end';
+      default:
+        return 'items-start';
     }
   };
 
@@ -54,7 +68,10 @@ export const CardPreview: React.FC = () => {
     <div className="flex flex-col items-center space-y-6">
       <h3 className="text-xl font-semibold">Card Preview</h3>
       
-      <div className="w-96 h-56 rounded-xl overflow-hidden border-2 border-cosmic-300 shadow-lg">
+      <div 
+        className="rounded-xl overflow-hidden border-2 border-cosmic-300 shadow-lg"
+        style={{ width: '384px', height: '224px' }}
+      >
         <div 
           className="w-full h-full p-6 relative flex flex-col"
           style={{ 
@@ -65,9 +82,15 @@ export const CardPreview: React.FC = () => {
             fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
           }}
         >
-          <div className="flex justify-between items-start">
-            {cardInfo.logo && (
-              <div className="w-16 h-16 rounded overflow-hidden bg-white p-1">
+          <div className={`flex ${cardInfo.textAlignment === 'center' ? 'flex-col items-center' : cardInfo.textAlignment === 'right' ? 'flex-col items-end' : 'justify-between items-start'}`}>
+            {cardInfo.logo && cardInfo.textAlignment !== 'center' && (
+              <div className="w-16 h-16 rounded overflow-hidden bg-white p-1 mb-4">
+                <img src={cardInfo.logo} alt="Logo" className="w-full h-full object-contain" />
+              </div>
+            )}
+            
+            {cardInfo.logo && cardInfo.textAlignment === 'center' && (
+              <div className="w-16 h-16 rounded overflow-hidden bg-white p-1 mb-4 mx-auto">
                 <img src={cardInfo.logo} alt="Logo" className="w-full h-full object-contain" />
               </div>
             )}
