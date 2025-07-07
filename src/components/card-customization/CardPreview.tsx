@@ -37,10 +37,10 @@ export const CardPreview: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center">
-      <h3 className="text-xl font-semibold mb-6">Card Preview</h3>
+    <div className="flex flex-col items-center space-y-6">
+      <h3 className="text-xl font-semibold">Card Preview</h3>
       
-      <div className="w-full max-w-md aspect-[1.7/1] rounded-xl overflow-hidden border-2 border-cosmic-300">
+      <div className="w-96 h-56 rounded-xl overflow-hidden border-2 border-cosmic-300 shadow-lg">
         <div 
           className="w-full h-full p-6 relative flex flex-col"
           style={{ 
@@ -132,15 +132,13 @@ export const CardPreview: React.FC = () => {
         </div>
       </div>
       
-      <div className="mt-6 w-full max-w-md flex justify-end">
-        <Button 
-          variant="outline"
-          className="border-cosmic-300 text-white hover:bg-cosmic-200 bg-cosmic-100"
-        >
-          <Undo className="h-4 w-4 mr-2" />
-          Undo Last Change
-        </Button>
-      </div>
+      <Button 
+        variant="outline"
+        className="border-cosmic-300 text-white hover:bg-cosmic-200 bg-cosmic-100"
+      >
+        <Undo className="h-4 w-4 mr-2" />
+        Undo Last Change
+      </Button>
     </div>
   );
 };
