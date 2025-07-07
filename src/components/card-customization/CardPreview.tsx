@@ -46,7 +46,7 @@ export const CardPreview: React.FC = () => {
       case 'right':
         return 'text-right';
       default:
-        return 'text-right';
+        return 'text-justify';
     }
   };
 
