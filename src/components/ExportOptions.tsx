@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
@@ -12,6 +11,35 @@ import { ChevronLeft } from 'lucide-react';
 
 export const ExportOptions: React.FC = () => {
   const { cardInfo, exportSettings, updateExportSettings, goToStep, prevStep } = useFormContext();
+
+  // Helper function to generate gradient background
+  const getGradientBackground = () => {
+    if (!cardInfo.useGradient) {
+      return cardInfo.backgroundColor;
+    }
+    
+    // Calculate gradient intensity (how much the second color differs from the base)
+    const baseColor = cardInfo.backgroundColor;
+    const intensity = cardInfo.gradientIntensity;
+    
+    // Create a darker/lighter version based on intensity
+    const rgb = baseColor.match(/\w\w/g);
+    if (!rgb) return baseColor;
+    
+    const [r, g, b] = rgb.map(x => parseInt(x, 16));
+    const factor = intensity / 100;
+    
+    // Darken the color for gradient
+    const newR = Math.max(0, Math.floor(r * (1 - factor * 0.3)));
+    const newG = Math.max(0, Math.floor(g * (1 - factor * 0.3)));
+    const newB = Math.max(0, Math.floor(b * (1 - factor * 0.3)));
+    
+    const gradientColor = `#${newR.toString(16).padStart(2, '0')}${newG.toString(16).padStart(2, '0')}${newB.toString(16).padStart(2, '0')}`;
+    
+    // Calculate gradient coverage
+    const coverage = cardInfo.gradientCoverage;
+    return `linear-gradient(135deg, ${baseColor} 0%, ${gradientColor} ${coverage}%)`;
+  };
 
   const handleExport = () => {
     toast.success("Business card exported successfully!", {
@@ -168,9 +196,7 @@ export const ExportOptions: React.FC = () => {
                   backgroundColor: cardInfo.backgroundColor,
                   color: cardInfo.textColor,
                   borderRadius: `${cardInfo.cornerRadius}px`,
-                  background: cardInfo.useGradient 
-                    ? `linear-gradient(135deg, ${cardInfo.backgroundColor}, #252b3b)`
-                    : cardInfo.backgroundColor
+                  background: getGradientBackground()
                 }}
               >
                 <div className="flex justify-between items-start">

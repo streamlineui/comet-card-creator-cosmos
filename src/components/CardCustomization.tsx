@@ -109,6 +109,35 @@ export const CardCustomization: React.FC = () => {
     return bg !== text;
   };
 
+  // Helper function to generate gradient background
+  const getGradientBackground = () => {
+    if (!cardInfo.useGradient) {
+      return cardInfo.backgroundColor;
+    }
+    
+    // Calculate gradient intensity (how much the second color differs from the base)
+    const baseColor = cardInfo.backgroundColor;
+    const intensity = cardInfo.gradientIntensity;
+    
+    // Create a darker/lighter version based on intensity
+    const rgb = baseColor.match(/\w\w/g);
+    if (!rgb) return baseColor;
+    
+    const [r, g, b] = rgb.map(x => parseInt(x, 16));
+    const factor = intensity / 100;
+    
+    // Darken the color for gradient
+    const newR = Math.max(0, Math.floor(r * (1 - factor * 0.3)));
+    const newG = Math.max(0, Math.floor(g * (1 - factor * 0.3)));
+    const newB = Math.max(0, Math.floor(b * (1 - factor * 0.3)));
+    
+    const gradientColor = `#${newR.toString(16).padStart(2, '0')}${newG.toString(16).padStart(2, '0')}${newB.toString(16).padStart(2, '0')}`;
+    
+    // Calculate gradient coverage
+    const coverage = cardInfo.gradientCoverage;
+    return `linear-gradient(135deg, ${baseColor} 0%, ${gradientColor} ${coverage}%)`;
+  };
+
   return (
     <div className="min-h-screen py-12 px-4 pb-16">
       <div className="starry-background"></div>
@@ -325,20 +354,55 @@ export const CardCustomization: React.FC = () => {
                 />
               </div>
 
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="corner-radius">Corner Radius</Label>
-                  <span className="text-sm text-gray-300">{cardInfo.cornerRadius}px</span>
+              {/* Gradient Controls - Only show when gradient is enabled */}
+              {cardInfo.useGradient && (
+                <div className="space-y-4 pl-4 border-l-2 border-cosmic-accent">
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <Label htmlFor="gradient-intensity">Gradient Intensity</Label>
+                      <span className="text-sm text-gray-300">{cardInfo.gradientIntensity}%</span>
+                    </div>
+                    <Slider
+                      id="gradient-intensity"
+                      min={0}
+                      max={100}
+                      step={5}
+                      value={[cardInfo.gradientIntensity]}
+                      onValueChange={(value) => updateCardInfo('gradientIntensity', value[0])}
+                    />
+                    <p className="text-xs text-gray-400">Controls how dark/light the gradient shade is</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <Label htmlFor="gradient-coverage">Gradient Coverage</Label>
+                      <span className="text-sm text-gray-300">{cardInfo.gradientCoverage}%</span>
+                    </div>
+                    <Slider
+                      id="gradient-coverage"
+                      min={25}
+                      max={100}
+                      step={5}
+                      value={[cardInfo.gradientCoverage]}
+                      onValueChange={(value) => updateCardInfo('gradientCoverage', value[0])}
+                    />
+                    <p className="text-xs text-gray-400">Controls how much of the card is covered by gradient</p>
+                  </div>
                 </div>
-                <Slider
-                  id="corner-radius"
-                  min={0}
-                  max={64}
-                  step={4}
-                  value={[cardInfo.cornerRadius]}
-                  onValueChange={(value) => updateCardInfo('cornerRadius', value[0])}
-                />
+              )}
+
+              <div className="flex items-center justify-between">
+                <Label htmlFor="corner-radius">Corner Radius</Label>
+                <span className="text-sm text-gray-300">{cardInfo.cornerRadius}px</span>
               </div>
+              <Slider
+                id="corner-radius"
+                min={0}
+                max={64}
+                step={4}
+                value={[cardInfo.cornerRadius]}
+                onValueChange={(value) => updateCardInfo('cornerRadius', value[0])}
+              />
             </div>
 
             <div className="space-y-4 pt-4 border-t border-cosmic-300">
@@ -449,9 +513,7 @@ export const CardCustomization: React.FC = () => {
                   backgroundColor: cardInfo.backgroundColor,
                   color: cardInfo.textColor,
                   borderRadius: `${cardInfo.cornerRadius}px`,
-                  background: cardInfo.useGradient 
-                    ? `linear-gradient(135deg, ${cardInfo.backgroundColor}, #252b3b)`
-                    : cardInfo.backgroundColor,
+                  background: getGradientBackground(),
                   fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
                 }}
               >

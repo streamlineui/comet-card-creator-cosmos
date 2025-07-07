@@ -38,6 +38,8 @@ export interface CardInfo {
   backgroundColor: string;
   textColor: string;
   useGradient: boolean;
+  gradientIntensity: number;
+  gradientCoverage: number;
   cornerRadius: number;
   templateId: string;
   fontFamily: string;
@@ -78,6 +80,8 @@ const defaultCardInfo: CardInfo = {
   backgroundColor: '#1A1F2C',
   textColor: '#FFFFFF',
   useGradient: false,
+  gradientIntensity: 50,
+  gradientCoverage: 100,
   cornerRadius: 8,
   templateId: '',
   fontFamily: 'Inter',
