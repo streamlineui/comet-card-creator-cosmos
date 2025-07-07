@@ -34,6 +34,8 @@ export interface CardInfo {
   website: string;
   contacts: { type: string; value: string }[];
   logo: string | null;
+  logoPlacement: 'top' | 'left' | 'right' | 'bottom' | 'center';
+  logoSize: number;
   backgroundColor: string;
   textColor: string;
   useGradient: boolean;
@@ -77,6 +79,8 @@ const defaultCardInfo: CardInfo = {
   website: '',
   contacts: [],
   logo: null,
+  logoPlacement: 'top',
+  logoSize: 64,
   backgroundColor: '#1A1F2C',
   textColor: '#FFFFFF',
   useGradient: false,
