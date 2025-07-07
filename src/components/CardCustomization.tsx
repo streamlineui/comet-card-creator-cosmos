@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
@@ -10,59 +9,59 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useFormContext, Industry } from '@/contexts/FormContext';
 import { Plus, Undo, ArrowLeft } from 'lucide-react';
 
-// Industry-specific font options
+// Industry-specific font options with simplified descriptions
 const industryFonts: Record<Industry, Array<{ value: string; label: string; description: string }>> = {
   'Automotive': [
-    { value: 'Bebas Neue', label: 'Bebas Neue', description: 'Bold, strong, all-caps font, excellent for performance and rugged branding' },
-    { value: 'Barlow', label: 'Barlow', description: 'A slightly condensed, utilitarian sans-serif that feels engineered and professional' },
-    { value: 'Rajdhani', label: 'Rajdhani', description: 'Modern, technical feel with squarish characters, great for an industrial look' },
+    { value: 'Bebas Neue', label: 'Bebas Neue', description: 'Bold & powerful' },
+    { value: 'Barlow', label: 'Barlow', description: 'Industrial & professional' },
+    { value: 'Rajdhani', label: 'Rajdhani', description: 'Modern & technical' },
   ],
   'Fashion & Apparel': [
-    { value: 'Playfair Display', label: 'Playfair Display', description: 'Elegant, high-contrast serif with a fashion editorial feel' },
-    { value: 'Lora', label: 'Lora', description: 'Stylish and readable, works well for both headers and text' },
-    { value: 'Poppins', label: 'Poppins', description: 'Geometric and sleek sans-serif, good for modern fashion brands' },
+    { value: 'Playfair Display', label: 'Playfair Display', description: 'Elegant & editorial' },
+    { value: 'Lora', label: 'Lora', description: 'Stylish & readable' },
+    { value: 'Poppins', label: 'Poppins', description: 'Modern & sleek' },
   ],
   'Food & Beverage': [
-    { value: 'Quicksand', label: 'Quicksand', description: 'Rounded and friendly, gives a warm, approachable vibe' },
-    { value: 'Merriweather', label: 'Merriweather', description: 'Readable serif with a slightly rustic, trustworthy tone' },
-    { value: 'Caveat', label: 'Caveat', description: 'A hand-written font that works great for artisan or casual food brands' },
+    { value: 'Quicksand', label: 'Quicksand', description: 'Warm & friendly' },
+    { value: 'Merriweather', label: 'Merriweather', description: 'Rustic & trustworthy' },
+    { value: 'Caveat', label: 'Caveat', description: 'Handwritten & artisan' },
   ],
   'Sports & Fitness': [
-    { value: 'Anton', label: 'Anton', description: 'Bold, wide, athletic display font for strong presence' },
-    { value: 'Orbitron', label: 'Orbitron', description: 'Futuristic and energetic, great for performance and fitness brands' },
-    { value: 'Titillium Web', label: 'Titillium Web', description: 'Sleek and dynamic sans-serif that works well in active lifestyle contexts' },
+    { value: 'Anton', label: 'Anton', description: 'Bold & athletic' },
+    { value: 'Orbitron', label: 'Orbitron', description: 'Futuristic & energetic' },
+    { value: 'Titillium Web', label: 'Titillium Web', description: 'Dynamic & active' },
   ],
   'Real Estate': [
-    { value: 'Montserrat', label: 'Montserrat', description: 'Clean and modern sans-serif, good for upscale or urban branding' },
-    { value: 'Source Sans Pro', label: 'Source Sans Pro', description: 'Highly legible and professional, good for credibility' },
-    { value: 'Merriweather', label: 'Merriweather', description: 'Serif option for traditional or luxury market appeal' },
+    { value: 'Montserrat', label: 'Montserrat', description: 'Clean & upscale' },
+    { value: 'Source Sans Pro', label: 'Source Sans Pro', description: 'Professional & credible' },
+    { value: 'Merriweather', label: 'Merriweather', description: 'Traditional & luxurious' },
   ],
   'Health & Wellness': [
-    { value: 'Josefin Sans', label: 'Josefin Sans', description: 'Light, airy, and calm—a great match for holistic brands' },
-    { value: 'Nunito', label: 'Nunito', description: 'Rounded and friendly sans-serif, great for well-being and accessibility' },
-    { value: 'Cormorant Garamond', label: 'Cormorant Garamond', description: 'Elegant serif with a spa-like, high-end tone' },
+    { value: 'Josefin Sans', label: 'Josefin Sans', description: 'Light & calming' },
+    { value: 'Nunito', label: 'Nunito', description: 'Friendly & approachable' },
+    { value: 'Cormorant Garamond', label: 'Cormorant Garamond', description: 'Elegant & spa-like' },
   ],
   'Finance & Fintech': [
-    { value: 'Roboto', label: 'Roboto', description: 'Balanced, neutral, and extremely versatile for both tech and financial services' },
-    { value: 'Inter', label: 'Inter', description: 'Designed for digital clarity, highly readable in small print' },
-    { value: 'Space Grotesk', label: 'Space Grotesk', description: 'Modern, slightly technical look with character for startups and fintech' },
+    { value: 'Roboto', label: 'Roboto', description: 'Balanced & versatile' },
+    { value: 'Inter', label: 'Inter', description: 'Digital & clear' },
+    { value: 'Space Grotesk', label: 'Space Grotesk', description: 'Modern & tech-forward' },
   ],
   'Art & Creative Services': [
-    { value: 'DM Serif Display', label: 'DM Serif Display', description: 'Artistic, expressive serif with flair' },
-    { value: 'Libre Baskerville', label: 'Libre Baskerville', description: 'Bookish and refined for thoughtful or narrative-driven creatives' },
-    { value: 'Righteous', label: 'Righteous', description: 'Playful yet sharp display font, suitable for bold personal brands' },
+    { value: 'DM Serif Display', label: 'DM Serif Display', description: 'Artistic & expressive' },
+    { value: 'Libre Baskerville', label: 'Libre Baskerville', description: 'Refined & thoughtful' },
+    { value: 'Righteous', label: 'Righteous', description: 'Playful & bold' },
   ],
   'Beauty & Cosmetics': [
-    { value: 'Cinzel', label: 'Cinzel', description: 'A Roman-inspired serif that feels luxurious and timeless' },
-    { value: 'Manrope', label: 'Manrope', description: 'Clean and refined sans-serif for a minimalist, modern aesthetic' },
-    { value: 'Great Vibes', label: 'Great Vibes', description: 'Elegant script font for high-end or feminine-focused beauty brands' },
+    { value: 'Cinzel', label: 'Cinzel', description: 'Luxurious & timeless' },
+    { value: 'Manrope', label: 'Manrope', description: 'Clean & minimalist' },
+    { value: 'Great Vibes', label: 'Great Vibes', description: 'Elegant & feminine' },
   ],
   '': [
-    { value: 'Inter', label: 'Inter', description: 'Modern Sans' },
-    { value: 'Playfair Display', label: 'Playfair Display', description: 'Elegant Serif' },
-    { value: 'Montserrat', label: 'Montserrat', description: 'Clean Sans' },
-    { value: 'Lora', label: 'Lora', description: 'Readable Serif' },
-    { value: 'Poppins', label: 'Poppins', description: 'Friendly Sans' },
+    { value: 'Inter', label: 'Inter', description: 'Modern & clean' },
+    { value: 'Playfair Display', label: 'Playfair Display', description: 'Elegant & classic' },
+    { value: 'Montserrat', label: 'Montserrat', description: 'Professional & readable' },
+    { value: 'Lora', label: 'Lora', description: 'Friendly & warm' },
+    { value: 'Poppins', label: 'Poppins', description: 'Modern & approachable' },
   ],
 };
 
@@ -264,11 +263,6 @@ export const CardCustomization: React.FC = () => {
               </div>
             </div>
 
-            
-
-
-
-            
             <div className="space-y-4 pt-4 border-t border-cosmic-300">
               <div className="flex items-center justify-between">
                 <Label htmlFor="background-color">Background Color</Label>
@@ -300,11 +294,6 @@ export const CardCustomization: React.FC = () => {
                   />
                 </div>
               </div>
-
-
-
-
-              
 
               <div className="flex items-center justify-between">
                 <Label htmlFor="text-color">Text Color</Label>
@@ -352,7 +341,6 @@ export const CardCustomization: React.FC = () => {
               </div>
             </div>
 
-            {/* Typography Section - Updated with industry-specific fonts */}
             <div className="space-y-4 pt-4 border-t border-cosmic-300">
               <h4 className="text-lg font-semibold text-white">
                 Typography {industry && `(${industry} Recommended)`}
@@ -446,7 +434,6 @@ export const CardCustomization: React.FC = () => {
             </div>
           </motion.div>
           
-          {/* Preview Section */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -561,7 +548,6 @@ export const CardCustomization: React.FC = () => {
           </motion.div>
         </div>
 
-        {/* Navigation buttons - Positioned at bottom of page (not fixed) */}
         <div className="mt-4 pt-4">
           <div className="flex justify-between max-w-6xl mx-auto">
             <Button 
