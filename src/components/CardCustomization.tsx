@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
@@ -464,7 +465,7 @@ export const CardCustomization: React.FC = () => {
                   background: cardInfo.useGradient 
                     ? `linear-gradient(135deg, ${cardInfo.backgroundColor}, #252b3b)`
                     : cardInfo.backgroundColor,
-                  fontFamily: cardInfo.fontFamily || 'Inter'
+                  fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
                 }}
               >
                 <div className="flex justify-between items-start">
@@ -477,13 +478,19 @@ export const CardCustomization: React.FC = () => {
                   <div className="text-right flex flex-col">
                     <h4 
                       className="font-bold"
-                      style={{ fontSize: `${cardInfo.nameFontSize || 20}px` }}
+                      style={{ 
+                        fontSize: `${cardInfo.nameFontSize || 20}px`,
+                        fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
+                      }}
                     >
                       {cardInfo.fullName || 'Full Name'}
                     </h4>
                     <p 
                       className="self-start"
-                      style={{ fontSize: `${cardInfo.roleFontSize || 14}px` }}
+                      style={{ 
+                        fontSize: `${cardInfo.roleFontSize || 14}px`,
+                        fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
+                      }}
                     >
                       {cardInfo.role || 'Role'}
                     </p>
@@ -493,14 +500,20 @@ export const CardCustomization: React.FC = () => {
                 <div className="mt-auto">
                   <h5 
                     className="font-bold"
-                    style={{ fontSize: `${cardInfo.companyFontSize || 18}px` }}
+                    style={{ 
+                      fontSize: `${cardInfo.companyFontSize || 18}px`,
+                      fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
+                    }}
                   >
                     {cardInfo.businessName || 'Business Name'}
                   </h5>
                   {cardInfo.tagline && (
                     <p 
                       className="italic"
-                      style={{ fontSize: `${cardInfo.contactFontSize || 12}px` }}
+                      style={{ 
+                        fontSize: `${cardInfo.contactFontSize || 12}px`,
+                        fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
+                      }}
                     >
                       {cardInfo.tagline}
                     </p>
@@ -508,7 +521,10 @@ export const CardCustomization: React.FC = () => {
                   {cardInfo.website && (
                     <p 
                       className="italic"
-                      style={{ fontSize: `${cardInfo.contactFontSize || 12}px` }}
+                      style={{ 
+                        fontSize: `${cardInfo.contactFontSize || 12}px`,
+                        fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
+                      }}
                     >
                       {cardInfo.website}
                     </p>
@@ -519,7 +535,10 @@ export const CardCustomization: React.FC = () => {
                       {cardInfo.contacts.map((contact, index) => (
                         <p 
                           key={index}
-                          style={{ fontSize: `${cardInfo.contactFontSize || 12}px` }}
+                          style={{ 
+                            fontSize: `${cardInfo.contactFontSize || 12}px`,
+                            fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
+                          }}
                         >
                           {contact.type}: {contact.value}
                         </p>
