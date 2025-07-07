@@ -51,6 +51,8 @@ export const ContactManager: React.FC = () => {
             <option value="phone">Phone</option>
             <option value="linkedin">LinkedIn</option>
             <option value="twitter">Twitter</option>
+            <option value="instagram">Instagram</option>
+            <option value="tiktok">TikTok</option>
           </select>
           <Input
             value={contact.value}
