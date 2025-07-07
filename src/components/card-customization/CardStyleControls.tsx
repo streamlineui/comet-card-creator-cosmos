@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
@@ -9,6 +8,24 @@ import { useFormContext } from '@/contexts/FormContext';
 export const CardStyleControls: React.FC = () => {
   const { cardInfo, updateCardInfo } = useFormContext();
   const [showColorPicker, setShowColorPicker] = useState(false);
+  const colorPickerRef = useRef<HTMLDivElement>(null);
+
+  // Handle clicks outside the color picker
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (colorPickerRef.current && !colorPickerRef.current.contains(event.target as Node)) {
+        setShowColorPicker(false);
+      }
+    };
+
+    if (showColorPicker) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showColorPicker]);
 
   // Simulated WCAG contrast check - in a real app, use a proper color contrast calculator
   const hasGoodContrast = () => {
@@ -31,7 +48,10 @@ export const CardStyleControls: React.FC = () => {
             onClick={() => setShowColorPicker(prev => !prev)}
           />
           {showColorPicker && (
-            <div className="absolute right-0 top-10 z-10 p-2 bg-cosmic-100 border border-cosmic-300 rounded-md">
+            <div 
+              ref={colorPickerRef}
+              className="absolute right-0 top-10 z-10 p-2 bg-cosmic-100 border border-cosmic-300 rounded-md"
+            >
               <input
                 type="color"
                 value={cardInfo.backgroundColor}
