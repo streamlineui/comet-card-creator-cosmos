@@ -18,8 +18,22 @@ const personalityOptions: BrandPersonality[] = [
   'Colorful'
 ];
 
+// Map personalities to default text alignments
+const personalityAlignments: Record<BrandPersonality, 'left' | 'center' | 'right'> = {
+  'Vibrant': 'left',
+  'Tranquil': 'center',
+  'Energetic': 'left',
+  'Bold': 'center',
+  'Elegant': 'right',
+  'Glamorous': 'right',
+  'Modern': 'center',
+  'Minimal': 'center',
+  'Vintage': 'left',
+  'Colorful': 'right'
+};
+
 export const PersonalitySelection: React.FC = () => {
-  const { personalities, togglePersonality, nextStep, prevStep, setPersonalities } = useFormContext();
+  const { personalities, togglePersonality, nextStep, prevStep, setPersonalities, updateCardInfo } = useFormContext();
 
   // Clear selected personalities when component mounts
   useEffect(() => {
@@ -28,6 +42,11 @@ export const PersonalitySelection: React.FC = () => {
 
   const handlePersonalitySelect = (personality: BrandPersonality) => {
     togglePersonality(personality);
+    
+    // Set the default text alignment based on personality
+    const defaultAlignment = personalityAlignments[personality];
+    updateCardInfo('textAlignment', defaultAlignment);
+    
     // Auto-advance to next step after selection
     setTimeout(() => {
       nextStep();
