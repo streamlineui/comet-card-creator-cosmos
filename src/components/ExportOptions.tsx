@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
@@ -129,7 +130,7 @@ export const ExportOptions: React.FC = () => {
             <div className="pt-6 space-x-4">
               <Button 
                 onClick={handleExport}
-                className="bg-white text-black hover:bg-gray-100"
+                className="bg-transparent border border-white text-white hover:bg-white/10"
               >
                 Download
               </Button>
