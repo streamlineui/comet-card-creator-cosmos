@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -9,29 +8,24 @@ import { useFormContext } from '@/contexts/FormContext';
 export const CardStyleControls: React.FC = () => {
   const { cardInfo, updateCardInfo } = useFormContext();
   const [showColorPicker, setShowColorPicker] = useState(false);
-  const [showGradientColorPicker, setShowGradientColorPicker] = useState(false);
   const colorPickerRef = useRef<HTMLDivElement>(null);
-  const gradientColorPickerRef = useRef<HTMLDivElement>(null);
 
-  // Handle clicks outside the color pickers
+  // Handle clicks outside the color picker
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (colorPickerRef.current && !colorPickerRef.current.contains(event.target as Node)) {
         setShowColorPicker(false);
       }
-      if (gradientColorPickerRef.current && !gradientColorPickerRef.current.contains(event.target as Node)) {
-        setShowGradientColorPicker(false);
-      }
     };
 
-    if (showColorPicker || showGradientColorPicker) {
+    if (showColorPicker) {
       document.addEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [showColorPicker, showGradientColorPicker]);
+  }, [showColorPicker]);
 
   // Simulated WCAG contrast check - in a real app, use a proper color contrast calculator
   const hasGoodContrast = () => {
@@ -112,40 +106,6 @@ export const CardStyleControls: React.FC = () => {
       {/* Gradient Controls - Only show when gradient is enabled */}
       {cardInfo.useGradient && (
         <div className="space-y-4 pl-4 border-l-2 border-cosmic-accent">
-          <div className="flex items-center justify-between">
-            <Label htmlFor="gradient-second-color">Gradient Second Color</Label>
-            <div className="flex items-center space-x-2 relative">
-              <div 
-                className="w-8 h-8 rounded-full border-2 border-white cursor-pointer"
-                style={{ backgroundColor: cardInfo.gradientSecondColor }}
-                onClick={() => setShowGradientColorPicker(prev => !prev)}
-              />
-              {showGradientColorPicker && (
-                <div 
-                  ref={gradientColorPickerRef}
-                  className="absolute right-0 top-10 z-10 p-2 bg-cosmic-100 border border-cosmic-300 rounded-md"
-                >
-                  <input
-                    type="color"
-                    value={cardInfo.gradientSecondColor}
-                    onChange={(e) => updateCardInfo('gradientSecondColor', e.target.value)}
-                  />
-                  <Input
-                    value={cardInfo.gradientSecondColor}
-                    onChange={(e) => updateCardInfo('gradientSecondColor', e.target.value)}
-                    className="mt-2 bg-cosmic-100 border-cosmic-300 text-white"
-                  />
-                </div>
-              )}
-              <Input
-                id="gradient-second-color"
-                value={cardInfo.gradientSecondColor}
-                onChange={(e) => updateCardInfo('gradientSecondColor', e.target.value)}
-                className="w-28 bg-cosmic-100 border-cosmic-300 text-white"
-              />
-            </div>
-          </div>
-
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <Label htmlFor="gradient-intensity">Gradient Intensity</Label>
@@ -159,7 +119,7 @@ export const CardStyleControls: React.FC = () => {
               value={[cardInfo.gradientIntensity]}
               onValueChange={(value) => updateCardInfo('gradientIntensity', value[0])}
             />
-            <p className="text-xs text-gray-400">Controls the gradient transition intensity</p>
+            <p className="text-xs text-gray-400">Controls how dark/light the gradient shade is</p>
           </div>
 
           <div className="space-y-2">
