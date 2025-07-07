@@ -36,6 +36,20 @@ export const CardPreview: React.FC = () => {
     return `linear-gradient(135deg, ${baseColor} 0%, ${gradientColor} ${coverage}%)`;
   };
 
+  // Helper function to get text alignment classes
+  const getTextAlignment = () => {
+    switch (cardInfo.textAlignment) {
+      case 'left':
+        return 'text-left';
+      case 'center':
+        return 'text-center';
+      case 'right':
+        return 'text-right';
+      default:
+        return 'text-right';
+    }
+  };
+
   return (
     <div className="flex flex-col items-center space-y-6">
       <h3 className="text-xl font-semibold">Card Preview</h3>
@@ -58,7 +72,7 @@ export const CardPreview: React.FC = () => {
               </div>
             )}
             
-            <div className="text-right flex flex-col">
+            <div className={`flex flex-col ${getTextAlignment()}`}>
               <h4 
                 className="font-bold"
                 style={{ 
@@ -69,7 +83,6 @@ export const CardPreview: React.FC = () => {
                 {cardInfo.fullName || 'Full Name'}
               </h4>
               <p 
-                className="self-start"
                 style={{ 
                   fontSize: `${cardInfo.roleFontSize || 14}px`,
                   fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
@@ -80,7 +93,7 @@ export const CardPreview: React.FC = () => {
             </div>
           </div>
           
-          <div className="mt-auto">
+          <div className={`mt-auto ${getTextAlignment()}`}>
             <h5 
               className="font-bold"
               style={{ 

@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState } from 'react';
 
 export type Industry = 
@@ -47,6 +46,7 @@ export interface CardInfo {
   roleFontSize: number;
   companyFontSize: number;
   contactFontSize: number;
+  textAlignment: 'left' | 'center' | 'right';
 }
 
 export interface FormContextType {
@@ -89,6 +89,7 @@ const defaultCardInfo: CardInfo = {
   roleFontSize: 14,
   companyFontSize: 18,
   contactFontSize: 12,
+  textAlignment: 'right',
 };
 
 const defaultExportSettings = {

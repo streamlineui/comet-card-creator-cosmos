@@ -9,6 +9,7 @@ import { ContactManager } from './card-customization/ContactManager';
 import { LogoUpload } from './card-customization/LogoUpload';
 import { CardStyleControls } from './card-customization/CardStyleControls';
 import { TypographyControls } from './card-customization/TypographyControls';
+import { TextAlignmentControls } from './card-customization/TextAlignmentControls';
 import { CardPreview } from './card-customization/CardPreview';
 
 export const CardCustomization: React.FC = () => {
@@ -42,6 +43,7 @@ export const CardCustomization: React.FC = () => {
             <LogoUpload />
             <CardStyleControls />
             <TypographyControls />
+            <TextAlignmentControls />
           </motion.div>
           
           <motion.div
