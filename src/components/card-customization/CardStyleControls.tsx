@@ -9,9 +9,11 @@ import { useFormContext } from '@/contexts/FormContext';
 export const CardStyleControls: React.FC = () => {
   const { cardInfo, updateCardInfo } = useFormContext();
   const [showColorPicker, setShowColorPicker] = useState(false);
+  const [showTextColorPicker, setShowTextColorPicker] = useState(false);
   const [showGradientColor1Picker, setShowGradientColor1Picker] = useState(false);
   const [showGradientColor2Picker, setShowGradientColor2Picker] = useState(false);
   const colorPickerRef = useRef<HTMLDivElement>(null);
+  const textColorPickerRef = useRef<HTMLDivElement>(null);
   const gradientColor1PickerRef = useRef<HTMLDivElement>(null);
   const gradientColor2PickerRef = useRef<HTMLDivElement>(null);
 
@@ -21,6 +23,9 @@ export const CardStyleControls: React.FC = () => {
       if (colorPickerRef.current && !colorPickerRef.current.contains(event.target as Node)) {
         setShowColorPicker(false);
       }
+      if (textColorPickerRef.current && !textColorPickerRef.current.contains(event.target as Node)) {
+        setShowTextColorPicker(false);
+      }
       if (gradientColor1PickerRef.current && !gradientColor1PickerRef.current.contains(event.target as Node)) {
         setShowGradientColor1Picker(false);
       }
@@ -29,14 +34,14 @@ export const CardStyleControls: React.FC = () => {
       }
     };
 
-    if (showColorPicker || showGradientColor1Picker || showGradientColor2Picker) {
+    if (showColorPicker || showTextColorPicker || showGradientColor1Picker || showGradientColor2Picker) {
       document.addEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [showColorPicker, showGradientColor1Picker, showGradientColor2Picker]);
+  }, [showColorPicker, showTextColorPicker, showGradientColor1Picker, showGradientColor2Picker]);
 
   // Simulated WCAG contrast check - in a real app, use a proper color contrast calculator
   const hasGoodContrast = () => {
@@ -86,11 +91,29 @@ export const CardStyleControls: React.FC = () => {
 
       <div className="flex items-center justify-between">
         <Label htmlFor="text-color">Text Color</Label>
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2 relative">
           <div 
-            className="w-8 h-8 rounded-full border-2 border-white"
+            className="w-8 h-8 rounded-full border-2 border-white cursor-pointer"
             style={{ backgroundColor: cardInfo.textColor }}
-          ></div>
+            onClick={() => setShowTextColorPicker(prev => !prev)}
+          />
+          {showTextColorPicker && (
+            <div 
+              ref={textColorPickerRef}
+              className="absolute right-0 top-10 z-10 p-2 bg-cosmic-100 border border-cosmic-300 rounded-md"
+            >
+              <input
+                type="color"
+                value={cardInfo.textColor}
+                onChange={(e) => updateCardInfo('textColor', e.target.value)}
+              />
+              <Input
+                value={cardInfo.textColor}
+                onChange={(e) => updateCardInfo('textColor', e.target.value)}
+                className="mt-2 bg-cosmic-100 border-cosmic-300 text-white"
+              />
+            </div>
+          )}
           <Input
             id="text-color"
             value={cardInfo.textColor}
