@@ -36,7 +36,7 @@ export const CardCustomization: React.FC = () => {
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="space-y-6"
+            className="space-y-6 order-2 lg:order-1"
           >
             <CardForm />
             <ContactManager />
@@ -49,7 +49,7 @@ export const CardCustomization: React.FC = () => {
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="flex flex-col items-center"
+            className="flex flex-col items-center order-1 lg:order-2"
           >
             <CardPreview />
           </motion.div>
