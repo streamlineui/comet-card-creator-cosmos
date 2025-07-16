@@ -3,29 +3,40 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useFormContext } from '@/contexts/FormContext';
 
 export const CardStyleControls: React.FC = () => {
   const { cardInfo, updateCardInfo } = useFormContext();
   const [showColorPicker, setShowColorPicker] = useState(false);
+  const [showGradientColor1Picker, setShowGradientColor1Picker] = useState(false);
+  const [showGradientColor2Picker, setShowGradientColor2Picker] = useState(false);
   const colorPickerRef = useRef<HTMLDivElement>(null);
+  const gradientColor1PickerRef = useRef<HTMLDivElement>(null);
+  const gradientColor2PickerRef = useRef<HTMLDivElement>(null);
 
-  // Handle clicks outside the color picker
+  // Handle clicks outside the color pickers
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (colorPickerRef.current && !colorPickerRef.current.contains(event.target as Node)) {
         setShowColorPicker(false);
       }
+      if (gradientColor1PickerRef.current && !gradientColor1PickerRef.current.contains(event.target as Node)) {
+        setShowGradientColor1Picker(false);
+      }
+      if (gradientColor2PickerRef.current && !gradientColor2PickerRef.current.contains(event.target as Node)) {
+        setShowGradientColor2Picker(false);
+      }
     };
 
-    if (showColorPicker) {
+    if (showColorPicker || showGradientColor1Picker || showGradientColor2Picker) {
       document.addEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [showColorPicker]);
+  }, [showColorPicker, showGradientColor1Picker, showGradientColor2Picker]);
 
   // Simulated WCAG contrast check - in a real app, use a proper color contrast calculator
   const hasGoodContrast = () => {
@@ -107,35 +118,88 @@ export const CardStyleControls: React.FC = () => {
       {cardInfo.useGradient && (
         <div className="space-y-4 pl-4 border-l-2 border-cosmic-accent">
           <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="gradient-intensity">Gradient Intensity</Label>
-              <span className="text-sm text-gray-300">{cardInfo.gradientIntensity}%</span>
-            </div>
-            <Slider
-              id="gradient-intensity"
-              min={0}
-              max={100}
-              step={5}
-              value={[cardInfo.gradientIntensity]}
-              onValueChange={(value) => updateCardInfo('gradientIntensity', value[0])}
-            />
-            <p className="text-xs text-gray-400">Controls how dark/light the gradient shade is</p>
+            <Label htmlFor="gradient-type">Gradient Type</Label>
+            <Select
+              value={cardInfo.gradientType}
+              onValueChange={(value: 'linear' | 'radial' | 'conic') => updateCardInfo('gradientType', value)}
+            >
+              <SelectTrigger className="bg-cosmic-100 border-cosmic-300 text-white">
+                <SelectValue placeholder="Select gradient type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="linear">Linear</SelectItem>
+                <SelectItem value="radial">Radial</SelectItem>
+                <SelectItem value="conic">Conic</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="gradient-coverage">Gradient Coverage</Label>
-              <span className="text-sm text-gray-300">{cardInfo.gradientCoverage}%</span>
+            <Label htmlFor="gradient-color-1">Gradient Color 1</Label>
+            <div className="flex items-center space-x-2 relative">
+              <div 
+                className="w-8 h-8 rounded-full border-2 border-white cursor-pointer"
+                style={{ backgroundColor: cardInfo.gradientColor1 }}
+                onClick={() => setShowGradientColor1Picker(prev => !prev)}
+              />
+              {showGradientColor1Picker && (
+                <div 
+                  ref={gradientColor1PickerRef}
+                  className="absolute right-0 top-10 z-10 p-2 bg-cosmic-100 border border-cosmic-300 rounded-md"
+                >
+                  <input
+                    type="color"
+                    value={cardInfo.gradientColor1}
+                    onChange={(e) => updateCardInfo('gradientColor1', e.target.value)}
+                  />
+                  <Input
+                    value={cardInfo.gradientColor1}
+                    onChange={(e) => updateCardInfo('gradientColor1', e.target.value)}
+                    className="mt-2 bg-cosmic-100 border-cosmic-300 text-white"
+                  />
+                </div>
+              )}
+              <Input
+                id="gradient-color-1"
+                value={cardInfo.gradientColor1}
+                onChange={(e) => updateCardInfo('gradientColor1', e.target.value)}
+                className="w-28 bg-cosmic-100 border-cosmic-300 text-white"
+              />
             </div>
-            <Slider
-              id="gradient-coverage"
-              min={25}
-              max={100}
-              step={5}
-              value={[cardInfo.gradientCoverage]}
-              onValueChange={(value) => updateCardInfo('gradientCoverage', value[0])}
-            />
-            <p className="text-xs text-gray-400">Controls how much of the card is covered by gradient</p>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="gradient-color-2">Gradient Color 2</Label>
+            <div className="flex items-center space-x-2 relative">
+              <div 
+                className="w-8 h-8 rounded-full border-2 border-white cursor-pointer"
+                style={{ backgroundColor: cardInfo.gradientColor2 }}
+                onClick={() => setShowGradientColor2Picker(prev => !prev)}
+              />
+              {showGradientColor2Picker && (
+                <div 
+                  ref={gradientColor2PickerRef}
+                  className="absolute right-0 top-10 z-10 p-2 bg-cosmic-100 border border-cosmic-300 rounded-md"
+                >
+                  <input
+                    type="color"
+                    value={cardInfo.gradientColor2}
+                    onChange={(e) => updateCardInfo('gradientColor2', e.target.value)}
+                  />
+                  <Input
+                    value={cardInfo.gradientColor2}
+                    onChange={(e) => updateCardInfo('gradientColor2', e.target.value)}
+                    className="mt-2 bg-cosmic-100 border-cosmic-300 text-white"
+                  />
+                </div>
+              )}
+              <Input
+                id="gradient-color-2"
+                value={cardInfo.gradientColor2}
+                onChange={(e) => updateCardInfo('gradientColor2', e.target.value)}
+                className="w-28 bg-cosmic-100 border-cosmic-300 text-white"
+              />
+            </div>
           </div>
         </div>
       )}

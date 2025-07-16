@@ -13,27 +13,18 @@ export const CardPreview: React.FC = () => {
       return cardInfo.backgroundColor;
     }
     
-    // Calculate gradient intensity (how much the second color differs from the base)
-    const baseColor = cardInfo.backgroundColor;
-    const intensity = cardInfo.gradientIntensity;
+    const { gradientType, gradientColor1, gradientColor2 } = cardInfo;
     
-    // Create a darker/lighter version based on intensity
-    const rgb = baseColor.match(/\w\w/g);
-    if (!rgb) return baseColor;
-    
-    const [r, g, b] = rgb.map(x => parseInt(x, 16));
-    const factor = intensity / 100;
-    
-    // Darken the color for gradient
-    const newR = Math.max(0, Math.floor(r * (1 - factor * 0.3)));
-    const newG = Math.max(0, Math.floor(g * (1 - factor * 0.3)));
-    const newB = Math.max(0, Math.floor(b * (1 - factor * 0.3)));
-    
-    const gradientColor = `#${newR.toString(16).padStart(2, '0')}${newG.toString(16).padStart(2, '0')}${newB.toString(16).padStart(2, '0')}`;
-    
-    // Calculate gradient coverage
-    const coverage = cardInfo.gradientCoverage;
-    return `linear-gradient(135deg, ${baseColor} 0%, ${gradientColor} ${coverage}%)`;
+    switch (gradientType) {
+      case 'linear':
+        return `linear-gradient(135deg, ${gradientColor1} 0%, ${gradientColor2} 100%)`;
+      case 'radial':
+        return `radial-gradient(circle, ${gradientColor1} 0%, ${gradientColor2} 100%)`;
+      case 'conic':
+        return `conic-gradient(from 0deg, ${gradientColor1} 0%, ${gradientColor2} 50%, ${gradientColor1} 100%)`;
+      default:
+        return `linear-gradient(135deg, ${gradientColor1} 0%, ${gradientColor2} 100%)`;
+    }
   };
 
   // Helper function to get text alignment classes for individual elements
