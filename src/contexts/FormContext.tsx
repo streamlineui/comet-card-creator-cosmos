@@ -26,6 +26,8 @@ export type BrandPersonality =
 
 export type StepId = 'welcome' | 'industry' | 'personality' | 'customize' | 'export';
 
+export type TextElement = 'fullName' | 'role' | 'businessName' | 'tagline' | 'website' | 'contacts';
+
 export interface CardInfo {
   fullName: string;
   businessName: string;
@@ -49,6 +51,13 @@ export interface CardInfo {
   companyFontSize: number;
   contactFontSize: number;
   textAlignment: 'left' | 'center' | 'right';
+  // Individual text alignments
+  fullNameAlignment: 'left' | 'center' | 'right';
+  roleAlignment: 'left' | 'center' | 'right';
+  businessNameAlignment: 'left' | 'center' | 'right';
+  taglineAlignment: 'left' | 'center' | 'right';
+  websiteAlignment: 'left' | 'center' | 'right';
+  contactsAlignment: 'left' | 'center' | 'right';
 }
 
 export interface FormContextType {
@@ -63,6 +72,8 @@ export interface FormContextType {
   setPersonalities: (personalities: BrandPersonality[]) => void;
   cardInfo: CardInfo;
   updateCardInfo: (key: keyof CardInfo, value: any) => void;
+  selectedTextElement: TextElement | null;
+  setSelectedTextElement: (element: TextElement | null) => void;
   exportSettings: {
     fileType: 'pdf' | 'jpg' | 'png';
     colorMode: 'RGB' | 'CMYK';
@@ -94,6 +105,13 @@ const defaultCardInfo: CardInfo = {
   companyFontSize: 18,
   contactFontSize: 12,
   textAlignment: 'right',
+  // Individual text alignments
+  fullNameAlignment: 'right',
+  roleAlignment: 'right',
+  businessNameAlignment: 'right',
+  taglineAlignment: 'right',
+  websiteAlignment: 'right',
+  contactsAlignment: 'right',
 };
 
 const defaultExportSettings = {
@@ -109,6 +127,7 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [industry, setIndustry] = useState<Industry>('');
   const [personalities, setPersonalities] = useState<BrandPersonality[]>([]);
   const [cardInfo, setCardInfo] = useState<CardInfo>(defaultCardInfo);
+  const [selectedTextElement, setSelectedTextElement] = useState<TextElement | null>(null);
   const [exportSettings, setExportSettings] = useState(defaultExportSettings);
 
   const nextStep = () => {
@@ -163,6 +182,8 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setPersonalities,
         cardInfo,
         updateCardInfo,
+        selectedTextElement,
+        setSelectedTextElement,
         exportSettings,
         updateExportSettings,
       }}

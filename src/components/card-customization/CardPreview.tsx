@@ -1,11 +1,11 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { useFormContext } from '@/contexts/FormContext';
+import { useFormContext, type TextElement } from '@/contexts/FormContext';
 import { Undo } from 'lucide-react';
 
 export const CardPreview: React.FC = () => {
-  const { cardInfo } = useFormContext();
+  const { cardInfo, selectedTextElement, setSelectedTextElement } = useFormContext();
 
   // Helper function to generate gradient background
   const getGradientBackground = () => {
@@ -36,9 +36,19 @@ export const CardPreview: React.FC = () => {
     return `linear-gradient(135deg, ${baseColor} 0%, ${gradientColor} ${coverage}%)`;
   };
 
-  // Helper function to get text alignment classes
-  const getTextAlignment = () => {
-    switch (cardInfo.textAlignment) {
+  // Helper function to get text alignment classes for individual elements
+  const getTextAlignment = (element: TextElement) => {
+    const alignmentMap = {
+      fullName: cardInfo.fullNameAlignment,
+      role: cardInfo.roleAlignment,
+      businessName: cardInfo.businessNameAlignment,
+      tagline: cardInfo.taglineAlignment,
+      website: cardInfo.websiteAlignment,
+      contacts: cardInfo.contactsAlignment,
+    };
+    
+    const alignment = alignmentMap[element];
+    switch (alignment) {
       case 'left':
         return 'text-left';
       case 'center':
@@ -48,6 +58,18 @@ export const CardPreview: React.FC = () => {
       default:
         return 'text-left';
     }
+  };
+
+  // Helper function to handle text element click
+  const handleTextElementClick = (element: TextElement) => {
+    setSelectedTextElement(selectedTextElement === element ? null : element);
+  };
+
+  // Helper function to get selection styling
+  const getSelectionStyling = (element: TextElement) => {
+    return selectedTextElement === element 
+      ? 'ring-2 ring-cosmic-accent ring-opacity-50 bg-cosmic-accent/10 rounded px-1' 
+      : 'cursor-pointer hover:bg-white/10 rounded px-1';
   };
 
   // Helper function to get logo positioning styles
@@ -100,63 +122,72 @@ export const CardPreview: React.FC = () => {
             </div>
           )}
           
-          {/* Text content with independent alignment */}
-          <div className={`flex flex-col h-full ${getTextAlignment()}`}>
-            <div className={`flex flex-col ${getTextAlignment()} mb-auto`}>
+          {/* Text content with individual alignment and selection */}
+          <div className="flex flex-col h-full">
+            <div className="flex flex-col mb-auto">
               <h4 
-                className="font-bold"
+                className={`font-bold transition-all duration-200 ${getTextAlignment('fullName')} ${getSelectionStyling('fullName')}`}
                 style={{ 
                   fontSize: `${cardInfo.nameFontSize || 20}px`,
                   fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
                 }}
+                onClick={() => handleTextElementClick('fullName')}
               >
                 {cardInfo.fullName || 'Full Name'}
               </h4>
               <p 
+                className={`transition-all duration-200 ${getTextAlignment('role')} ${getSelectionStyling('role')}`}
                 style={{ 
                   fontSize: `${cardInfo.roleFontSize || 14}px`,
                   fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
                 }}
+                onClick={() => handleTextElementClick('role')}
               >
                 {cardInfo.role || 'Role'}
               </p>
             </div>
           
-            <div className={`mt-auto ${getTextAlignment()}`}>
+            <div className="mt-auto">
               <h5 
-                className="font-bold"
+                className={`font-bold transition-all duration-200 ${getTextAlignment('businessName')} ${getSelectionStyling('businessName')}`}
                 style={{ 
                   fontSize: `${cardInfo.companyFontSize || 18}px`,
                   fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
                 }}
+                onClick={() => handleTextElementClick('businessName')}
               >
                 {cardInfo.businessName || 'Business Name'}
               </h5>
               {cardInfo.tagline && (
                 <p 
-                  className="italic"
+                  className={`italic transition-all duration-200 ${getTextAlignment('tagline')} ${getSelectionStyling('tagline')}`}
                   style={{ 
                     fontSize: `${cardInfo.contactFontSize || 12}px`,
                     fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
                   }}
+                  onClick={() => handleTextElementClick('tagline')}
                 >
                   {cardInfo.tagline}
                 </p>
               )}
               {cardInfo.website && (
                 <p 
-                  className="italic"
+                  className={`italic transition-all duration-200 ${getTextAlignment('website')} ${getSelectionStyling('website')}`}
                   style={{ 
                     fontSize: `${cardInfo.contactFontSize || 12}px`,
                     fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
                   }}
+                  onClick={() => handleTextElementClick('website')}
                 >
                   {cardInfo.website}
                 </p>
               )}
               
               {cardInfo.contacts.length > 0 && (
-                <div className="mt-2">
+                <div 
+                  className={`mt-2 transition-all duration-200 ${getTextAlignment('contacts')} ${getSelectionStyling('contacts')}`}
+                  onClick={() => handleTextElementClick('contacts')}
+                >
                   {cardInfo.contacts.map((contact, index) => (
                     <p 
                       key={index}
