@@ -163,6 +163,7 @@ export const CardStyleControls: React.FC = () => {
                 id="gradient-color-1"
                 value={cardInfo.gradientColor1}
                 onChange={(e) => updateCardInfo('gradientColor1', e.target.value)}
+                placeholder="HEX#000000"
                 className="w-28 bg-cosmic-100 border-cosmic-300 text-white"
               />
             </div>
@@ -197,6 +198,7 @@ export const CardStyleControls: React.FC = () => {
                 id="gradient-color-2"
                 value={cardInfo.gradientColor2}
                 onChange={(e) => updateCardInfo('gradientColor2', e.target.value)}
+                placeholder="HEX#000000"
                 className="w-28 bg-cosmic-100 border-cosmic-300 text-white"
               />
             </div>
