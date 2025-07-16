@@ -50,18 +50,26 @@ export const CardPreview: React.FC = () => {
     }
   };
 
-  // Helper function to get flex alignment classes
-  const getFlexAlignment = () => {
-    switch (cardInfo.textAlignment) {
-      case 'left':
-        return 'items-start';
-      case 'center':
-        return 'items-center';
-      case 'right':
-        return 'items-end';
-      default:
-        return 'items-start';
-    }
+  // Helper function to get logo positioning styles
+  const getLogoPosition = () => {
+    const size = cardInfo.logoSize;
+    const positions = {
+      'top-left': { top: '12px', left: '12px' },
+      'top-center': { top: '12px', left: '50%', transform: 'translateX(-50%)' },
+      'top-right': { top: '12px', right: '12px' },
+      'middle-left': { top: '50%', left: '12px', transform: 'translateY(-50%)' },
+      'middle-center': { top: '50%', left: '50%', transform: 'translate(-50%, -50%)' },
+      'middle-right': { top: '50%', right: '12px', transform: 'translateY(-50%)' },
+      'bottom-left': { bottom: '12px', left: '12px' },
+      'bottom-center': { bottom: '12px', left: '50%', transform: 'translateX(-50%)' },
+      'bottom-right': { bottom: '12px', right: '12px' }
+    };
+    
+    return {
+      ...positions[cardInfo.logoPosition],
+      width: `${size}px`,
+      height: `${size}px`
+    };
   };
 
   return (
@@ -82,20 +90,19 @@ export const CardPreview: React.FC = () => {
             fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
           }}
         >
-          <div className={`flex ${cardInfo.textAlignment === 'center' ? 'flex-col items-center' : cardInfo.textAlignment === 'right' ? 'flex-col items-end' : 'justify-between items-start'}`}>
-            {cardInfo.logo && cardInfo.textAlignment !== 'center' && (
-              <div className="w-16 h-16 rounded overflow-hidden bg-white p-1 mb-4">
-                <img src={cardInfo.logo} alt="Logo" className="w-full h-full object-contain" />
-              </div>
-            )}
-            
-            {cardInfo.logo && cardInfo.textAlignment === 'center' && (
-              <div className="w-16 h-16 rounded overflow-hidden bg-white p-1 mb-4 mx-auto">
-                <img src={cardInfo.logo} alt="Logo" className="w-full h-full object-contain" />
-              </div>
-            )}
-            
-            <div className={`flex flex-col ${getTextAlignment()}`}>
+          {/* Logo positioned independently */}
+          {cardInfo.logo && (
+            <div 
+              className="absolute rounded overflow-hidden bg-white p-1"
+              style={getLogoPosition()}
+            >
+              <img src={cardInfo.logo} alt="Logo" className="w-full h-full object-contain" />
+            </div>
+          )}
+          
+          {/* Text content with independent alignment */}
+          <div className={`flex flex-col h-full ${getTextAlignment()}`}>
+            <div className={`flex flex-col ${getTextAlignment()} mb-auto`}>
               <h4 
                 className="font-bold"
                 style={{ 
@@ -114,56 +121,56 @@ export const CardPreview: React.FC = () => {
                 {cardInfo.role || 'Role'}
               </p>
             </div>
-          </div>
           
-          <div className={`mt-auto ${getTextAlignment()}`}>
-            <h5 
-              className="font-bold"
-              style={{ 
-                fontSize: `${cardInfo.companyFontSize || 18}px`,
-                fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
-              }}
-            >
-              {cardInfo.businessName || 'Business Name'}
-            </h5>
-            {cardInfo.tagline && (
-              <p 
-                className="italic"
+            <div className={`mt-auto ${getTextAlignment()}`}>
+              <h5 
+                className="font-bold"
                 style={{ 
-                  fontSize: `${cardInfo.contactFontSize || 12}px`,
+                  fontSize: `${cardInfo.companyFontSize || 18}px`,
                   fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
                 }}
               >
-                {cardInfo.tagline}
-              </p>
-            )}
-            {cardInfo.website && (
-              <p 
-                className="italic"
-                style={{ 
-                  fontSize: `${cardInfo.contactFontSize || 12}px`,
-                  fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
-                }}
-              >
-                {cardInfo.website}
-              </p>
-            )}
-            
-            {cardInfo.contacts.length > 0 && (
-              <div className="mt-2">
-                {cardInfo.contacts.map((contact, index) => (
-                  <p 
-                    key={index}
-                    style={{ 
-                      fontSize: `${cardInfo.contactFontSize || 12}px`,
-                      fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
-                    }}
-                  >
-                    {contact.type}: {contact.value}
-                  </p>
-                ))}
-              </div>
-            )}
+                {cardInfo.businessName || 'Business Name'}
+              </h5>
+              {cardInfo.tagline && (
+                <p 
+                  className="italic"
+                  style={{ 
+                    fontSize: `${cardInfo.contactFontSize || 12}px`,
+                    fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
+                  }}
+                >
+                  {cardInfo.tagline}
+                </p>
+              )}
+              {cardInfo.website && (
+                <p 
+                  className="italic"
+                  style={{ 
+                    fontSize: `${cardInfo.contactFontSize || 12}px`,
+                    fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
+                  }}
+                >
+                  {cardInfo.website}
+                </p>
+              )}
+              
+              {cardInfo.contacts.length > 0 && (
+                <div className="mt-2">
+                  {cardInfo.contacts.map((contact, index) => (
+                    <p 
+                      key={index}
+                      style={{ 
+                        fontSize: `${cardInfo.contactFontSize || 12}px`,
+                        fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
+                      }}
+                    >
+                      {contact.type}: {contact.value}
+                    </p>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
