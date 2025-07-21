@@ -76,7 +76,7 @@ export interface FormContextType {
   selectedTextElement: TextElement | null;
   setSelectedTextElement: (element: TextElement | null) => void;
   exportSettings: {
-    fileType: 'pdf' | 'jpg' | 'png';
+    fileType: 'pdf' | 'jpg' | 'png' | 'gif' | 'svg' | 'tiff';
     colorMode: 'RGB' | 'CMYK';
     size: number;
   };

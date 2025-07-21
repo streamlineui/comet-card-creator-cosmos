@@ -94,7 +94,7 @@ export const CardPreview: React.FC = () => {
         style={{ width: '384px', height: '224px' }}
       >
         <div 
-          className="w-full h-full p-6 relative flex flex-col"
+          className="card-preview w-full h-full p-6 relative flex flex-col"
           style={{ 
             backgroundColor: cardInfo.backgroundColor,
             color: cardInfo.textColor,

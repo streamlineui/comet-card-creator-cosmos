@@ -8,6 +8,8 @@ import { Slider } from '@/components/ui/slider';
 import { useFormContext } from '@/contexts/FormContext';
 import { toast } from "sonner";
 import { ChevronLeft } from 'lucide-react';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 export const ExportOptions: React.FC = () => {
   const { cardInfo, exportSettings, updateExportSettings, goToStep, prevStep } = useFormContext();
@@ -32,14 +34,85 @@ export const ExportOptions: React.FC = () => {
     }
   };
 
-  const handleExport = () => {
-    toast.success("Business card exported successfully!", {
-      description: "Your file is ready for download.",
-      action: {
-        label: "Download",
-        onClick: () => console.log("Download started"),
-      },
-    });
+  const handleExport = async () => {
+    try {
+      const cardElement = document.querySelector('.card-preview') as HTMLElement;
+      if (!cardElement) {
+        toast.error("Could not find card preview to export");
+        return;
+      }
+
+      const scaleFactor = exportSettings.size / 100;
+      const canvas = await html2canvas(cardElement, {
+        scale: scaleFactor * 2, // Higher scale for better quality
+        backgroundColor: null,
+        useCORS: true,
+        allowTaint: false
+      });
+
+      const fileName = `business-card-${cardInfo.fullName?.replace(/\s+/g, '-').toLowerCase() || 'card'}`;
+      
+      switch (exportSettings.fileType) {
+        case 'pdf':
+          const pdf = new jsPDF({
+            orientation: 'landscape',
+            unit: 'mm',
+            format: [85.6, 53.98] // Standard business card size
+          });
+          const imgData = canvas.toDataURL('image/png');
+          pdf.addImage(imgData, 'PNG', 0, 0, 85.6, 53.98);
+          pdf.save(`${fileName}.pdf`);
+          break;
+          
+        case 'png':
+          canvas.toBlob((blob) => {
+            const url = URL.createObjectURL(blob!);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${fileName}.png`;
+            a.click();
+            URL.revokeObjectURL(url);
+          }, 'image/png');
+          break;
+          
+        case 'jpg':
+          canvas.toBlob((blob) => {
+            const url = URL.createObjectURL(blob!);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${fileName}.jpg`;
+            a.click();
+            URL.revokeObjectURL(url);
+          }, 'image/jpeg', 0.9);
+          break;
+          
+        case 'gif':
+        case 'tiff':
+        case 'svg':
+          // For unsupported formats, fallback to PNG
+          canvas.toBlob((blob) => {
+            const url = URL.createObjectURL(blob!);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${fileName}.png`;
+            a.click();
+            URL.revokeObjectURL(url);
+          }, 'image/png');
+          toast.info(`${exportSettings.fileType.toUpperCase()} format not yet supported. Downloaded as PNG instead.`);
+          break;
+          
+        default:
+          toast.error("Unsupported file format");
+          return;
+      }
+      
+      toast.success("Business card exported successfully!", {
+        description: `Your ${exportSettings.fileType.toUpperCase()} file has been downloaded.`,
+      });
+    } catch (error) {
+      console.error('Export failed:', error);
+      toast.error("Failed to export business card. Please try again.");
+    }
   };
 
   return (
@@ -76,10 +149,10 @@ export const ExportOptions: React.FC = () => {
           >
             <div className="space-y-4">
               <h3 className="text-xl font-semibold">File Type</h3>
-              <RadioGroup 
+               <RadioGroup 
                 value={exportSettings.fileType}
                 onValueChange={(value) => updateExportSettings('fileType', value)}
-                className="grid grid-cols-3 gap-4"
+                className="grid grid-cols-2 gap-4"
               >
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem 
@@ -104,6 +177,30 @@ export const ExportOptions: React.FC = () => {
                     className="border-white text-white data-[state=checked]:bg-white data-[state=checked]:border-white"
                   />
                   <Label htmlFor="png" className="text-white">PNG</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem 
+                    value="gif" 
+                    id="gif" 
+                    className="border-white text-white data-[state=checked]:bg-white data-[state=checked]:border-white"
+                  />
+                  <Label htmlFor="gif" className="text-white">GIF</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem 
+                    value="svg" 
+                    id="svg" 
+                    className="border-white text-white data-[state=checked]:bg-white data-[state=checked]:border-white"
+                  />
+                  <Label htmlFor="svg" className="text-white">SVG</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem 
+                    value="tiff" 
+                    id="tiff" 
+                    className="border-white text-white data-[state=checked]:bg-white data-[state=checked]:border-white"
+                  />
+                  <Label htmlFor="tiff" className="text-white">TIFF</Label>
                 </div>
               </RadioGroup>
             </div>
