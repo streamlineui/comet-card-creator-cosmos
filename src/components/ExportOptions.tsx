@@ -195,7 +195,12 @@ export const ExportOptions: React.FC = () => {
           >
             <div className="space-y-4">
               <h3 className="text-xl font-semibold">File Type</h3>
-               <RadioGroup 
+              <div className="mb-3 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+                <p className="text-xs text-blue-700 dark:text-blue-300">
+                  💡 <strong>Quality Tip:</strong> For best results, choose Medium or Large size, especially for PDF exports. Larger formats maintain better quality and detail.
+                </p>
+              </div>
+               <RadioGroup
                 value={exportSettings.fileType}
                 onValueChange={(value) => updateExportSettings('fileType', value)}
                 className="grid grid-cols-2 gap-4"
