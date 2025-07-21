@@ -86,16 +86,16 @@ export const LogoUpload: React.FC = () => {
               <SelectTrigger className="bg-cosmic-100 border-cosmic-300 text-white">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="bg-cosmic-200 border-cosmic-300">
-                <SelectItem value="top-left">Top Left</SelectItem>
-                <SelectItem value="top-center">Top Center</SelectItem>
-                <SelectItem value="top-right">Top Right</SelectItem>
-                <SelectItem value="middle-left">Middle Left</SelectItem>
-                <SelectItem value="middle-center">Middle Center</SelectItem>
-                <SelectItem value="middle-right">Middle Right</SelectItem>
-                <SelectItem value="bottom-left">Bottom Left</SelectItem>
-                <SelectItem value="bottom-center">Bottom Center</SelectItem>
-                <SelectItem value="bottom-right">Bottom Right</SelectItem>
+              <SelectContent className="bg-cosmic-200 border-cosmic-300 text-white">
+                <SelectItem value="top-left" className="text-white hover:bg-cosmic-300">Top Left</SelectItem>
+                <SelectItem value="top-center" className="text-white hover:bg-cosmic-300">Top Center</SelectItem>
+                <SelectItem value="top-right" className="text-white hover:bg-cosmic-300">Top Right</SelectItem>
+                <SelectItem value="middle-left" className="text-white hover:bg-cosmic-300">Middle Left</SelectItem>
+                <SelectItem value="middle-center" className="text-white hover:bg-cosmic-300">Middle Center</SelectItem>
+                <SelectItem value="middle-right" className="text-white hover:bg-cosmic-300">Middle Right</SelectItem>
+                <SelectItem value="bottom-left" className="text-white hover:bg-cosmic-300">Bottom Left</SelectItem>
+                <SelectItem value="bottom-center" className="text-white hover:bg-cosmic-300">Bottom Center</SelectItem>
+                <SelectItem value="bottom-right" className="text-white hover:bg-cosmic-300">Bottom Right</SelectItem>
               </SelectContent>
             </Select>
           </div>
