@@ -10,6 +10,8 @@ import { toast } from "sonner";
 import { ChevronLeft } from 'lucide-react';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+// @ts-ignore - gif.js doesn't have proper TypeScript types
+import GIF from 'gif.js';
 
 export const ExportOptions: React.FC = () => {
   const { cardInfo, exportSettings, updateExportSettings, goToStep, prevStep } = useFormContext();
@@ -80,6 +82,66 @@ export const ExportOptions: React.FC = () => {
     };
   };
 
+  // Helper function to create animated GIF
+  const createAnimatedGIF = async (cardElement: HTMLElement): Promise<Blob> => {
+    return new Promise((resolve, reject) => {
+      const gif = new GIF({
+        workers: 2,
+        quality: 10,
+        width: cardElement.offsetWidth,
+        height: cardElement.offsetHeight,
+        workerScript: '/gif.worker.js'
+      });
+
+      const frames = 30; // Number of frames
+      const duration = 50; // Duration per frame in ms
+      let frameCount = 0;
+
+      const addFrame = async () => {
+        if (frameCount >= frames) {
+          gif.render();
+          return;
+        }
+
+        // Create subtle animation effect
+        const opacity = 0.8 + (Math.sin((frameCount / frames) * Math.PI * 2) * 0.2);
+        const originalOpacity = cardElement.style.opacity;
+        cardElement.style.opacity = opacity.toString();
+
+        try {
+          const canvas = await html2canvas(cardElement, {
+            scale: 1,
+            backgroundColor: null,
+            useCORS: true,
+            allowTaint: false
+          });
+          
+          gif.addFrame(canvas, { delay: duration });
+          frameCount++;
+          
+          // Restore original opacity
+          cardElement.style.opacity = originalOpacity;
+          
+          // Add next frame with a small delay
+          setTimeout(addFrame, 10);
+        } catch (error) {
+          cardElement.style.opacity = originalOpacity;
+          reject(error);
+        }
+      };
+
+      gif.on('finished', (blob: Blob) => {
+        resolve(blob);
+      });
+
+      gif.on('abort', () => {
+        reject(new Error('GIF generation aborted'));
+      });
+
+      addFrame();
+    });
+  };
+
   const handleExport = async () => {
     try {
       const cardElement = document.querySelector('.card-preview') as HTMLElement;
@@ -133,6 +195,30 @@ export const ExportOptions: React.FC = () => {
           break;
           
         case 'gif':
+          toast.info("Creating animated GIF... This may take a moment.");
+          try {
+            const gifBlob = await createAnimatedGIF(cardElement);
+            const url = URL.createObjectURL(gifBlob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${fileName}.gif`;
+            a.click();
+            URL.revokeObjectURL(url);
+          } catch (error) {
+            console.error('GIF creation failed:', error);
+            // Fallback to PNG
+            canvas.toBlob((blob) => {
+              const url = URL.createObjectURL(blob!);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = `${fileName}.png`;
+              a.click();
+              URL.revokeObjectURL(url);
+            }, 'image/png');
+            toast.error("GIF creation failed. Downloaded as PNG instead.");
+          }
+          break;
+          
         case 'tiff':
         case 'svg':
           // For unsupported formats, fallback to PNG
