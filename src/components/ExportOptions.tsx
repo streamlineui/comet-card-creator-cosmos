@@ -5,7 +5,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
-import { useFormContext } from '@/contexts/FormContext';
+import { useFormContext, type TextElement } from '@/contexts/FormContext';
 import { toast } from "sonner";
 import { ChevronLeft } from 'lucide-react';
 import html2canvas from 'html2canvas';
@@ -32,6 +32,52 @@ export const ExportOptions: React.FC = () => {
       default:
         return `linear-gradient(135deg, ${gradientColor1} 0%, ${gradientColor2} 100%)`;
     }
+  };
+
+  // Helper function to get text alignment classes for individual elements
+  const getTextAlignment = (element: TextElement) => {
+    const alignmentMap = {
+      fullName: cardInfo.fullNameAlignment,
+      role: cardInfo.roleAlignment,
+      businessName: cardInfo.businessNameAlignment,
+      tagline: cardInfo.taglineAlignment,
+      website: cardInfo.websiteAlignment,
+      contacts: cardInfo.contactsAlignment,
+    };
+    
+    const alignment = alignmentMap[element];
+    switch (alignment) {
+      case 'left':
+        return 'text-left';
+      case 'center':
+        return 'text-center';
+      case 'right':
+        return 'text-right';
+      default:
+        return 'text-left';
+    }
+  };
+
+  // Helper function to get logo positioning styles
+  const getLogoPosition = () => {
+    const size = cardInfo.logoSize;
+    const positions = {
+      'top-left': { top: '12px', left: '12px' },
+      'top-center': { top: '12px', left: '50%', transform: 'translateX(-50%)' },
+      'top-right': { top: '12px', right: '12px' },
+      'middle-left': { top: '50%', left: '12px', transform: 'translateY(-50%)' },
+      'middle-center': { top: '50%', left: '50%', transform: 'translate(-50%, -50%)' },
+      'middle-right': { top: '50%', right: '12px', transform: 'translateY(-50%)' },
+      'bottom-left': { bottom: '12px', left: '12px' },
+      'bottom-center': { bottom: '12px', left: '50%', transform: 'translateX(-50%)' },
+      'bottom-right': { bottom: '12px', right: '12px' }
+    };
+    
+    return {
+      ...positions[cardInfo.logoPosition],
+      width: `${size}px`,
+      height: `${size}px`
+    };
   };
 
   const handleExport = async () => {
@@ -277,49 +323,104 @@ export const ExportOptions: React.FC = () => {
           >
             <h3 className="text-xl font-semibold mb-6">Preview</h3>
             
-            <div className="w-full max-w-lg aspect-[1.7/1] rounded-xl overflow-hidden border-2 border-cosmic-300">
+            <div 
+              className="rounded-xl overflow-hidden border-2 border-cosmic-300 shadow-lg"
+              style={{ width: '384px', height: '224px' }}
+            >
               <div 
-                className="w-full h-full p-6 relative flex flex-col"
+                className="card-preview w-full h-full p-6 relative flex flex-col"
                 style={{ 
                   backgroundColor: cardInfo.backgroundColor,
                   color: cardInfo.textColor,
                   borderRadius: `${cardInfo.cornerRadius}px`,
-                  background: getGradientBackground()
+                  background: getGradientBackground(),
+                  fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
                 }}
               >
-                <div className="flex justify-between items-start">
-                  {cardInfo.logo && (
-                    <div className="w-16 h-16 rounded overflow-hidden bg-white p-1">
-                      <img src={cardInfo.logo} alt="Logo" className="w-full h-full object-contain" />
-                    </div>
-                  )}
-                  
-                  <div className="text-right">
-                    <h4 className="text-xl font-bold">{cardInfo.fullName || 'Full Name'}</h4>
-                    <p className="text-sm">{cardInfo.role || 'Role'}</p>
+                {/* Logo positioned independently */}
+                {cardInfo.logo && (
+                  <div 
+                    className="absolute rounded overflow-hidden bg-white p-1"
+                    style={getLogoPosition()}
+                  >
+                    <img src={cardInfo.logo} alt="Logo" className="w-full h-full object-contain" />
                   </div>
-                </div>
+                )}
                 
-                <div className="mt-auto">
-                  <h5 className="text-lg font-bold">
-                    {cardInfo.businessName || 'Business Name'}
-                  </h5>
-                  {cardInfo.tagline && (
-                    <p className="text-sm italic">{cardInfo.tagline}</p>
-                  )}
-                  {cardInfo.website && (
-                    <p className="text-sm">{cardInfo.website}</p>
-                  )}
-                  
-                  {cardInfo.contacts.length > 0 && (
-                    <div className="mt-2">
-                      {cardInfo.contacts.map((contact, index) => (
-                        <p key={index} className="text-sm">
-                          {contact.type}: {contact.value}
-                        </p>
-                      ))}
-                    </div>
-                  )}
+                {/* Text content with individual alignment */}
+                <div className="flex flex-col h-full">
+                  <div className="flex flex-col mb-auto">
+                    <h4 
+                      className={`font-bold ${getTextAlignment('fullName')}`}
+                      style={{ 
+                        fontSize: `${cardInfo.nameFontSize || 20}px`,
+                        fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
+                      }}
+                    >
+                      {cardInfo.fullName || 'Full Name'}
+                    </h4>
+                    <p 
+                      className={`${getTextAlignment('role')}`}
+                      style={{ 
+                        fontSize: `${cardInfo.roleFontSize || 14}px`,
+                        fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
+                      }}
+                    >
+                      {cardInfo.role || 'Role'}
+                    </p>
+                  </div>
+                
+                  <div className="mt-auto">
+                    <h5 
+                      className={`font-bold ${getTextAlignment('businessName')}`}
+                      style={{ 
+                        fontSize: `${cardInfo.companyFontSize || 18}px`,
+                        fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
+                      }}
+                    >
+                      {cardInfo.businessName || 'Business Name'}
+                    </h5>
+                    {cardInfo.tagline && (
+                      <p 
+                        className={`italic ${getTextAlignment('tagline')}`}
+                        style={{ 
+                          fontSize: `${cardInfo.contactFontSize || 12}px`,
+                          fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
+                        }}
+                      >
+                        {cardInfo.tagline}
+                      </p>
+                    )}
+                    {cardInfo.website && (
+                      <p 
+                        className={`italic ${getTextAlignment('website')}`}
+                        style={{ 
+                          fontSize: `${cardInfo.contactFontSize || 12}px`,
+                          fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
+                        }}
+                      >
+                        {cardInfo.website}
+                      </p>
+                    )}
+                    
+                    {cardInfo.contacts.length > 0 && (
+                      <div 
+                        className={`mt-2 ${getTextAlignment('contacts')}`}
+                      >
+                        {cardInfo.contacts.map((contact, index) => (
+                          <p 
+                            key={index}
+                            style={{ 
+                              fontSize: `${cardInfo.contactFontSize || 12}px`,
+                              fontFamily: `'${cardInfo.fontFamily || 'Inter'}', sans-serif`
+                            }}
+                          >
+                            {contact.type}: {contact.value}
+                          </p>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
