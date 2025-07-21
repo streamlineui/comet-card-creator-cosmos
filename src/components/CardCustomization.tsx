@@ -43,15 +43,15 @@ export const CardCustomization: React.FC = () => {
             <LogoUpload />
             <CardStyleControls />
             <TypographyControls />
-            <TextAlignmentControls />
           </motion.div>
           
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="flex flex-col items-center order-1 lg:order-2"
+            className="flex flex-col items-center space-y-6 order-1 lg:order-2"
           >
             <CardPreview />
+            <TextAlignmentControls />
           </motion.div>
         </div>
 
