@@ -106,7 +106,7 @@ export const CardPreview: React.FC = () => {
           {/* Logo positioned independently */}
           {cardInfo.logo && (
             <div 
-              className="absolute rounded overflow-hidden bg-white p-1"
+              className="absolute rounded overflow-hidden"
               style={getLogoPosition()}
             >
               <img src={cardInfo.logo} alt="Logo" className="w-full h-full object-contain" />
